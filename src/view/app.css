@@ -1,0 +1,13 @@
+@import url(../style/color.css);
+
+.app {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background: var(--grey-100);
+  color: var(--grey-800);
+  margin: 0;
+  padding: 0;
+}
