@@ -7,15 +7,6 @@ import BookEntry from '../component/bookEntry';
 
 export default class App extends Component {
   render() {
-    const entrySchema = {
-      id: '01234567',
-      date: new Date(),
-      accounts: [
-        { id: '0abcd', price: 105400, note: '갸아악' },
-        { id: '0cdef', price: -105400, note: '그아악' },
-      ],
-      summary: '버튼 잘못 눌러서 돈 나감',
-    };
     const accountSchema = {
       '0abcd': {
         name: '잡손실',
@@ -29,10 +20,23 @@ export default class App extends Component {
         currency: 'KRW',
       },
     };
+    const entrySchema = {
+      id: '01234567',
+      date: Date.now(),
+      accounts: [
+        { id: '0abcd', value: 105400, note: '갸아악' },
+        { id: '0cdef', value: -105400, note: '그아악' },
+      ],
+      summary: '버튼 잘못 눌러서 돈 나감',
+    };
+    // Apply accountSchema to entrySchema - 'flatten' it.
     return (
       <div className={style.app}>
-        <BookDateEntry date={new Date()}>
-          <BookEntry />
+        <BookDateEntry date={Date.now()}>
+          <BookEntry entry={Object.assign({}, entrySchema, {
+            accounts: entrySchema.accounts.map(info => Object.assign({},
+              info, { account: accountSchema[info.id] })),
+          })} />
         </BookDateEntry>
       </div>
     );
