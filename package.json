@@ -50,6 +50,7 @@
     "postcss-cssnext": "^2.9.0",
     "postcss-import": "^10.0.0",
     "postcss-loader": "^2.0.5",
+    "postcss-nesting": "^4.0.1",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.7",
     "webpack": "^2.2.1",
