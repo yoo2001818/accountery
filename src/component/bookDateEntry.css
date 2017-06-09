@@ -1,5 +1,19 @@
 @import url(../style/color.css);
 
 .bookDateEntry {
-  font-size: 32pt;
+  margin: 0.5em 0;
+  & > .header {
+    margin: 0;
+    padding: 0.5em;
+    background-color: var(--grey-200);
+    border: 1px solid var(--grey-400);
+    color: var(--grey-800);
+    font-weight: bold;
+    border-radius: 2px;
+  }
+  & > .list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
 }

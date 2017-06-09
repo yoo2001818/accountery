@@ -26,7 +26,9 @@ export default class BookEntry extends Component {
             { note }
           </span>
         ) }
-        <span className={style.value}>
+        <span className={classNames(style.value,
+          value > 0 ? style.positive : style.negative)}
+        >
           { value }
         </span>
       </li>
@@ -36,7 +38,7 @@ export default class BookEntry extends Component {
     const { entry: { accounts, summary } } = this.props;
     return (
       <div className={style.bookEntry}>
-        <ul className={style.accounts}>
+        <ul className={style.accountDiffs}>
           { accounts.map(this.renderAccountDiff.bind(this)) }
         </ul>
         <p className={style.description}>

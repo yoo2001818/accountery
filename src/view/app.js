@@ -33,10 +33,18 @@ export default class App extends Component {
     return (
       <div className={style.app}>
         <BookDateEntry date={Date.now()}>
-          <BookEntry entry={Object.assign({}, entrySchema, {
-            accounts: entrySchema.accounts.map(info => Object.assign({},
-              info, { account: accountSchema[info.id] })),
-          })} />
+          <li>
+            <BookEntry entry={Object.assign({}, entrySchema, {
+              accounts: entrySchema.accounts.map(info => Object.assign({},
+                info, { account: accountSchema[info.id] })),
+            })} />
+          </li>
+          <li>
+            <BookEntry entry={Object.assign({}, entrySchema, {
+              accounts: entrySchema.accounts.map(info => Object.assign({},
+                info, { account: accountSchema[info.id] })),
+            })} />
+          </li>
         </BookDateEntry>
       </div>
     );

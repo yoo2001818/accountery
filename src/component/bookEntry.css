@@ -1,5 +1,63 @@
 @import url(../style/color.css);
 
 .bookEntry {
+  padding: 0.5em;
+  margin: 0.2em 0;
+  border: 1px solid var(--grey-400);
+  border-radius: 2px;
+  & > .accountDiffs {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+  & > .description {
+    margin: 0;
+    padding: 0;
+  }
+}
 
+.accountDiff {
+  margin-bottom: 0.3em;
+  & > .name {
+    font-weight: bold;
+    &.income {
+      color: var(--green-800);
+    }
+    &.expense {
+      color: var(--red-800);
+    }
+    &.asset {
+      color: var(--blue-800);
+    }
+    &.liability {
+      color: var(--orange-800);
+    }
+  }
+  & > .note {
+    font-size: 0.9em;
+    margin-left: 0.2em;
+    color: var(--grey-600);
+  }
+  /* TODO: &:before doesn't work..? */
+  & > .note:before {
+    content: '(';
+  }
+  & > .note:after {
+    content: ')';
+  }
+  & > .value {
+    float: right;
+    text-align: right;
+    &.positive {
+      color: var(--green-800);
+    }
+    &.negative {
+      color: var(--red-800);
+    }
+  }
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
 }

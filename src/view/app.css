@@ -3,6 +3,9 @@
 .app {
   margin: 0;
   padding: 0;
+  /* Temporary stuff */
+  margin: 0 auto;
+  max-width: 25em;
 }
 
 html, body {
