@@ -3,6 +3,7 @@
 .bookEntry {
   padding: 0.5em;
   margin: 0.2em 0;
+  background-color: var(--grey-000);
   border: 1px solid var(--grey-400);
   border-radius: 2px;
   & > .accountDiffs {
@@ -37,19 +38,22 @@
     font-size: 0.9em;
     margin-left: 0.2em;
     color: var(--grey-600);
-  }
-  /* TODO: &:before doesn't work..? */
-  & > .note:before {
-    content: '(';
-  }
-  & > .note:after {
-    content: ')';
+    &:before {
+      content: '(';
+    }
+    &:after {
+      content: ')';
+    }
   }
   & > .value {
     float: right;
+    font-family: monospace;
     text-align: right;
     &.positive {
       color: var(--green-800);
+      &:before {
+        content: '+';
+      }
     }
     &.negative {
       color: var(--red-800);
