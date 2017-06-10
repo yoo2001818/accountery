@@ -38,30 +38,21 @@ export default class BookEntry extends Component {
     );
   }
   render() {
-    const { entry: { id, date, accounts, summary }, showMenu } = this.props;
+    const { entry: { id, date, accounts, summary }, focus } = this.props;
     return (
-      <div className={style.bookEntry}>
+      <div className={classNames(style.bookEntry, { [style.focus]: focus })}>
+        <ul className={style.accountDiffs}>
+          { accounts.map(this.renderAccountDiff.bind(this)) }
+        </ul>
         <div className={style.content}>
-          <ul className={style.accountDiffs}>
-            { accounts.map(this.renderAccountDiff.bind(this)) }
-          </ul>
           <p className={style.description}>
             { summary }
           </p>
+          <p className={style.details} />
         </div>
-        { showMenu && (
+        { focus && (
           <div className={style.menu}>
-            <div className={style.actions}>
-              Menu
-            </div>
-            <p className={style.details}>
-              <span className={style.date}>
-                { new Date(date).toLocaleTimeString() }
-              </span>
-              <span className={style.id}>
-                { id }
-              </span>
-            </p>
+            Hello!
           </div>
         ) }
       </div>
@@ -72,5 +63,5 @@ export default class BookEntry extends Component {
 BookEntry.propTypes = {
   // TODO Add detailed props
   entry: PropTypes.object,
-  showMenu: PropTypes.boolean,
+  focus: PropTypes.boolean,
 };

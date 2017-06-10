@@ -37,7 +37,7 @@ export default class App extends Component {
             <BookEntry entry={Object.assign({}, entrySchema, {
               accounts: entrySchema.accounts.map(info => Object.assign({},
                 info, { account: accountSchema[info.id] })),
-            })} showMenu />
+            })} focus />
           </li>
           <li>
             <BookEntry entry={Object.assign({}, entrySchema, {

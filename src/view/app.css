@@ -3,7 +3,7 @@
 
 .app {
   margin: 0;
-  padding: 0;
+  padding: 0 0.2em;
   /* Temporary stuff */
   margin: 0 auto;
   max-width: 35em;

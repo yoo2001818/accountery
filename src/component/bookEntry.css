@@ -2,44 +2,59 @@
 @import url(../style/font.css);
 
 .bookEntry {
-  padding: 0;
+  position: relative;
+  padding: 0.6em 0.7em;
   margin: 0.5em 0;
   background-color: var(--grey-000);
   border: 1px solid var(--grey-400);
   border-radius: 2px;
   box-shadow: 0 0.2em 0.3em -0.2em color(var(--grey-900) alpha(-30%));
+  &.focus {
+    border: 1px solid var(--blue-700);
+    box-shadow: 0 0.2em 0.3em -0.2em var(--blue-700);
+  }
+  & > .accountDiffs {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
   & > .content {
-    padding: 0.6em 0.7em;
-    & > .accountDiffs {
+    margin: 0.5em 0 0;
+    padding: 0.5em 0 0;
+    border-top: 1px solid var(--grey-400);
+    color: var(--grey-800);
+    overflow: hidden;
+    & > .description {
+      display: inline-block;
       margin: 0;
       padding: 0;
-      list-style-type: none;
-    }
-    & > .description {
-      margin: 0.5em 0 0;
-      padding: 0.5em 0 0;
-      border-top: 1px solid var(--grey-400);
-      color: var(--grey-800);
-    }
-  }
-  & > .menu {
-    font-size: 0.9em;
-    padding: 0.6em 0.7em;
-    background-color: var(--grey-200);
-    border-top: 1px solid var(--grey-400);
-    & > .actions {
-      float: left;
     }
     & > .details {
+      margin: 0;
+      padding: 0;
       float: right;
       font-size: 0.9em;
       color: var(--grey-600);
-      padding: 0;
-      margin: 0.2em 0 0;
       text-align: right;
-      & > span {
-        margin-left: 0.2em;
+      & > .id {
+        font-family: var(--font-monospace);
       }
+    }
+  }
+  & > .menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin: 0.2em 0.2em 0;
+    z-index: 10;
+    font-size: 0.9em;
+    padding: 0.6em 0.7em;
+    background-color: var(--grey-000);
+    border: 1px solid var(--grey-400);
+    border-radius: 2px;
+    box-shadow: 0 0.2em 0.6em -0.2em color(var(--grey-900) alpha(-50%));
+    & > .actions {
+      float: left;
     }
     &:after {
       content: '';
