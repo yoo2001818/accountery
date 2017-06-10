@@ -1,11 +1,12 @@
 @import url(../style/color.css);
+@import url(../style/font.css);
 
 .app {
   margin: 0;
   padding: 0;
   /* Temporary stuff */
   margin: 0 auto;
-  max-width: 25em;
+  max-width: 35em;
 }
 
 html, body {
@@ -13,4 +14,10 @@ html, body {
   color: var(--grey-800);
   margin: 0;
   padding: 0;
+  /* It's always good to specify this to make the website perfect on other
+   * systems...
+   */
+  font-family: var(--font-normal);
+  line-height: 1.2em;
+  font-size: 12pt;
 }

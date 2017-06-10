@@ -1,19 +1,51 @@
 @import url(../style/color.css);
+@import url(../style/font.css);
 
 .bookEntry {
-  padding: 0.5em;
-  margin: 0.2em 0;
+  padding: 0;
+  margin: 0.5em 0;
   background-color: var(--grey-000);
   border: 1px solid var(--grey-400);
   border-radius: 2px;
-  & > .accountDiffs {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
+  box-shadow: 0 0.2em 0.3em -0.2em color(var(--grey-900) alpha(-30%));
+  & > .content {
+    padding: 0.6em 0.7em;
+    & > .accountDiffs {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+    }
+    & > .description {
+      margin: 0.5em 0 0;
+      padding: 0.5em 0 0;
+      border-top: 1px solid var(--grey-400);
+      color: var(--grey-800);
+    }
   }
-  & > .description {
-    margin: 0;
-    padding: 0;
+  & > .menu {
+    font-size: 0.9em;
+    padding: 0.6em 0.7em;
+    background-color: var(--grey-200);
+    border-top: 1px solid var(--grey-400);
+    & > .actions {
+      float: left;
+    }
+    & > .details {
+      float: right;
+      font-size: 0.9em;
+      color: var(--grey-600);
+      padding: 0;
+      margin: 0.2em 0 0;
+      text-align: right;
+      & > span {
+        margin-left: 0.2em;
+      }
+    }
+    &:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
   }
 }
 
@@ -47,7 +79,7 @@
   }
   & > .value {
     float: right;
-    font-family: monospace;
+    font-family: var(--font-monospace);
     text-align: right;
     &.positive {
       color: var(--green-800);

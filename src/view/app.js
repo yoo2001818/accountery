@@ -25,7 +25,7 @@ export default class App extends Component {
       date: Date.now(),
       accounts: [
         { id: '0abcd', value: 105400, note: '갸아악' },
-        { id: '0cdef', value: -105400, note: '그아악' },
+        { id: '0cdef', value: -236789, note: '그아악' },
       ],
       summary: '버튼 잘못 눌러서 돈 나감',
     };
@@ -37,7 +37,7 @@ export default class App extends Component {
             <BookEntry entry={Object.assign({}, entrySchema, {
               accounts: entrySchema.accounts.map(info => Object.assign({},
                 info, { account: accountSchema[info.id] })),
-            })} />
+            })} showMenu />
           </li>
           <li>
             <BookEntry entry={Object.assign({}, entrySchema, {

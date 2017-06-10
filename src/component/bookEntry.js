@@ -13,6 +13,9 @@ const ACCOUNT_DIFF_STYLES = {
 export default class BookEntry extends Component {
   renderAccountDiff(diff, key) {
     const { account, note, value } = diff;
+    // TODO Move this to somewhere else
+    const formatter = new Intl.NumberFormat(undefined,
+      { style: 'currency', currency: account.currency });
     // This is so unnecessary, but I wanted to make sure only selected types
     // are accepted as class name.
     const accountClassName = ACCOUNT_DIFF_STYLES[account.type];
@@ -29,21 +32,38 @@ export default class BookEntry extends Component {
         <span className={classNames(style.value,
           value > 0 ? style.positive : style.negative)}
         >
-          { value }
+          { formatter.format(value) }
         </span>
       </li>
     );
   }
   render() {
-    const { entry: { accounts, summary } } = this.props;
+    const { entry: { id, date, accounts, summary }, showMenu } = this.props;
     return (
       <div className={style.bookEntry}>
-        <ul className={style.accountDiffs}>
-          { accounts.map(this.renderAccountDiff.bind(this)) }
-        </ul>
-        <p className={style.description}>
-          { summary }
-        </p>
+        <div className={style.content}>
+          <ul className={style.accountDiffs}>
+            { accounts.map(this.renderAccountDiff.bind(this)) }
+          </ul>
+          <p className={style.description}>
+            { summary }
+          </p>
+        </div>
+        { showMenu && (
+          <div className={style.menu}>
+            <div className={style.actions}>
+              Menu
+            </div>
+            <p className={style.details}>
+              <span className={style.date}>
+                { new Date(date).toLocaleTimeString() }
+              </span>
+              <span className={style.id}>
+                { id }
+              </span>
+            </p>
+          </div>
+        ) }
       </div>
     );
   }
@@ -52,4 +72,5 @@ export default class BookEntry extends Component {
 BookEntry.propTypes = {
   // TODO Add detailed props
   entry: PropTypes.object,
+  showMenu: PropTypes.boolean,
 };
