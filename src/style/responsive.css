@@ -1,0 +1,7 @@
+:root {
+  --tablet-size: 40em;
+  --desktop-size: 50em;
+}
+
+@custom-media --tablet screen and (min-width: 40em);
+@custom-media --desktop screen and (min-width: 50em);
