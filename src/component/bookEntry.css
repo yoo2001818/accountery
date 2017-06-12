@@ -33,7 +33,6 @@
     padding: 0.5em 0 0;
     border-top: 1px solid var(--grey-400);
     color: var(--grey-800);
-    overflow: hidden;
     & > .description {
       display: inline-block;
       margin: 0;
@@ -53,7 +52,7 @@
     & > .menu {
       float: right;
       color: var(--grey-600);
-      visibility: hidden;
+      visibility: visible;
     }
   }
   /* TODO: I'm not sure if this is required - we can just use

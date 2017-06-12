@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import FaCaretDown from 'react-icons/lib/fa/caret-down';
 
+import DropDown from './dropDown';
 import style from './bookEntry.css';
 
 const ACCOUNT_DIFF_STYLES = {
@@ -52,7 +53,9 @@ export default class BookEntry extends Component {
           </p>
           <p className={style.details} />
           <div className={style.menu}>
-            <FaCaretDown />
+            <DropDown title={<FaCaretDown />}>
+              <div>aa</div>
+            </DropDown>
           </div>
         </div>
       </div>
