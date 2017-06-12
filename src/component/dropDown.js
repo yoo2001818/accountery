@@ -1,5 +1,6 @@
 import React, { Component, PropTypes, cloneElement } from 'react';
 import classNames from 'classnames';
+import Portal from 'react-portal';
 
 import style from './dropDown.css';
 
@@ -45,15 +46,17 @@ export default class DropDown extends Component {
         <div className={style.button} onClick={this.handleClick.bind(this)}>
           {buttonContent}
         </div>
-        <div className={style.content}>
-          { this.props.preventClose ? (
-            this.props.children
-          ) : (
-            cloneElement(this.props.children, {
-              onClick: this.handleClick.bind(this),
-            })
-          ) }
-        </div>
+        <Portal isOpened={!hidden}>
+          <div className={style.content}>
+            { this.props.preventClose ? (
+              this.props.children
+            ) : (
+              cloneElement(this.props.children, {
+                onClick: this.handleClick.bind(this),
+              })
+            ) }
+          </div>
+        </Portal>
       </div>
     );
   }
