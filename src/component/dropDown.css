@@ -94,7 +94,7 @@
       }
     }
   }
-  &.hidden {
+  &.open {
     & > .button {
       &:after {
         opacity: 0.6;

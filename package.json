@@ -26,7 +26,7 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-icons": "^2.2.5",
-    "react-portal": "^3.1.0",
+    "react-portal-minimal": "^4.0.2",
     "react-redux": "^5.0.5",
     "redux": "^3.6.0",
     "redux-actions": "^2.0.3",
