@@ -12,10 +12,12 @@ class TitleBar extends Component {
     const { title, toggleOpen } = this.props;
     return (
       <div className={style.titleBar}>
-        <button className={style.menuButton} onClick={toggleOpen}>
-          <FaBars />
-        </button>
-        <h1 className={style.title}>{ title }</h1>
+        <div className={style.bar}>
+          <button className={style.menuButton} onClick={toggleOpen}>
+            <FaBars />
+          </button>
+          <h1 className={style.title}>{ title }</h1>
+        </div>
       </div>
     );
   }

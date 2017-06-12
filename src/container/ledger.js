@@ -39,12 +39,14 @@ export default class Ledger extends Component {
                 info, { account: accountSchema[info.id] })),
             })} focus />
           </li>
-          <li>
-            <BookEntry entry={Object.assign({}, entrySchema, {
-              accounts: entrySchema.accounts.map(info => Object.assign({},
-                info, { account: accountSchema[info.id] })),
-            })} />
-          </li>
+          { [0, 1, 2, 3, 4].map(v => (
+            <li key={v}>
+              <BookEntry entry={Object.assign({}, entrySchema, {
+                accounts: entrySchema.accounts.map(info => Object.assign({},
+                  info, { account: accountSchema[info.id] })),
+              })} />
+            </li>
+          )) }
         </BookDateEntry>
       </div>
     );

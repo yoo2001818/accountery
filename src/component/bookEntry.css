@@ -9,7 +9,7 @@
   border: 1px solid var(--grey-400);
   border-radius: 2px;
   box-shadow: 0 0.2em 0.3em -0.2em color(var(--grey-900) alpha(-30%));
-  &.focus {
+  &.focus, &.focus:hover {
     background-color: var(--blue-100);
     border: 1px solid var(--blue-700);
     box-shadow: 0 0.2em 0.3em -0.2em var(--blue-700);
@@ -17,8 +17,11 @@
       visibility: visible;
     }
   }
-  &:hover > .content > .menu {
-    visibility: visible;
+  &:hover {
+    border: 1px solid var(--blue-500);
+    & > .content > .menu {
+      visibility: visible;
+    }
   }
   & > .accountDiffs {
     margin: 0;
