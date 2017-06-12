@@ -1,45 +1,5 @@
 @import url(../style/color.css);
 @import url(../style/font.css);
-@import url(../style/responsive.css);
-
-:root {
-  --sidebar-width: 13em;
-}
-
-.app {
-  margin: 0;
-  padding: 0;
-  & > .sideMenu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    display: none;
-    z-index: 150;
-    width: var(--sidebar-width);
-    box-sizing: border-box;
-    padding: 0.5em 0.4em;
-    color: var(--grey-800);
-    background-color: var(--grey-200);
-    border-right: 1px solid var(--grey-400);
-    overflow-y: hidden;
-    &:hover {
-      overflow-y: auto;
-    }
-  }
-  & > .content {
-    min-height: 100%;
-  }
-  @media (--desktop) {
-    & > .sideMenu {
-      display: block;
-    }
-    & > .content {
-      margin-left: var(--sidebar-width);
-      padding: 0 0.4em;
-    }
-  }
-}
 
 html, body {
   background: var(--grey-100);

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import style from './ledger.css';
+
 import BookDateEntry from '../component/bookDateEntry';
 import BookEntry from '../component/bookEntry';
 
@@ -29,7 +31,7 @@ export default class Ledger extends Component {
     };
     // Apply accountSchema to entrySchema - 'flatten' it.
     return (
-      <div>
+      <div className={style.ledger} >
         <BookDateEntry date={Date.now()}>
           <li>
             <BookEntry entry={Object.assign({}, entrySchema, {

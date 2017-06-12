@@ -64,5 +64,5 @@ export default class BookEntry extends Component {
 BookEntry.propTypes = {
   // TODO Add detailed props
   entry: PropTypes.object,
-  focus: PropTypes.boolean,
+  focus: PropTypes.bool,
 };
