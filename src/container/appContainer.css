@@ -66,11 +66,17 @@
   }
   @media (--desktop) {
     & > .sideMenu {
-      left: 0;
+      margin-left: 0;
+      visibility: visible;
+      transition: none;
     }
     & > .content {
       margin-left: var(--sidebar-width);
       width: auto;
+      transition: none;
+    }
+    & > .menuFill {
+      display: none;
     }
   }
 }

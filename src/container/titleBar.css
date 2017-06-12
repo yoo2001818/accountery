@@ -23,7 +23,7 @@
     &:hover {
       color: var(--green-100);
     }
-    @media (--tablet) {
+    @media (--desktop) {
       display: none;
     }
   }

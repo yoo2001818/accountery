@@ -10,8 +10,15 @@
   border-radius: 2px;
   box-shadow: 0 0.2em 0.3em -0.2em color(var(--grey-900) alpha(-30%));
   &.focus {
+    background-color: var(--blue-100);
     border: 1px solid var(--blue-700);
     box-shadow: 0 0.2em 0.3em -0.2em var(--blue-700);
+    & > .content > .menu {
+      visibility: visible;
+    }
+  }
+  &:hover > .content > .menu {
+    visibility: visible;
   }
   & > .accountDiffs {
     margin: 0;
@@ -40,7 +47,32 @@
         font-family: var(--font-monospace);
       }
     }
+    & > .menu {
+      float: right;
+      color: var(--grey-600);
+      visibility: hidden;
+    }
   }
+  /* TODO: I'm not sure if this is required - we can just use
+   * holding to multiselect on mobile, and shift / ctrl + click on computers.
+  & > .checkBox {
+    position: absolute;
+    top: -0.6em;
+    left: -0.6em;
+    width: 1.2em;
+    height: 1.2em;
+    line-height: 1.2em;
+    font-size: 0.85em;
+    text-align: center;
+    vertical-align: middle;
+    background-color: var(--grey-000);
+    border: 1px solid var(--grey-400);
+    border-radius: 3px;
+    color: var(--green-800);
+    box-shadow: 0 0.1em 0.3em -0.2em color(var(--grey-900) alpha(-30%));
+  }
+  */
+  /*
   & > .menu {
     position: absolute;
     top: 100%;
@@ -62,6 +94,7 @@
       clear: both;
     }
   }
+  */
 }
 
 .accountDiff {

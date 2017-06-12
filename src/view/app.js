@@ -9,10 +9,12 @@ import AppContainer from '../container/appContainer';
 export default class App extends Component {
   render() {
     return (
-      <AppContainer>
-        <TitleBar title='Ledger' />
-        <Ledger />
-      </AppContainer>
+      <div className={style.app}>
+        <AppContainer>
+          <TitleBar title='분개장' />
+          <Ledger />
+        </AppContainer>
+      </div>
     );
   }
 }

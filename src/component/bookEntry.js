@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import FaCaretDown from 'react-icons/lib/fa/caret-down';
 
 import style from './bookEntry.css';
 
@@ -39,7 +40,7 @@ export default class BookEntry extends Component {
     );
   }
   render() {
-    const { entry: { id, date, accounts, summary }, focus } = this.props;
+    const { entry: { accounts, summary }, focus } = this.props;
     return (
       <div className={classNames(style.bookEntry, { [style.focus]: focus })}>
         <ul className={style.accountDiffs}>
@@ -50,12 +51,10 @@ export default class BookEntry extends Component {
             { summary }
           </p>
           <p className={style.details} />
-        </div>
-        { focus && (
           <div className={style.menu}>
-            Hello!
+            <FaCaretDown />
           </div>
-        ) }
+        </div>
       </div>
     );
   }

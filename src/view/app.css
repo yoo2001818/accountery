@@ -6,10 +6,19 @@ html, body {
   color: var(--grey-800);
   margin: 0;
   padding: 0;
+  min-width: 100%;
+  min-height: 100%;
   /* It's always good to specify this to make the website perfect on other
    * systems...
    */
   font-family: var(--font-normal);
   line-height: 1.2em;
   font-size: 12pt;
+}
+
+.app {
+  margin: 0;
+  padding: 0;
+  min-width: 100%;
+  min-height: 100%;
 }
