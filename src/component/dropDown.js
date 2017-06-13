@@ -1,6 +1,7 @@
-import React, { Component, PropTypes, cloneElement } from 'react';
+import React, { Component, cloneElement } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Portal from 'react-portal';
+import Portal from 'react-portal-minimal';
 
 import style from './dropDown.css';
 
@@ -8,55 +9,105 @@ export default class DropDown extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hidden: true,
+      open: false,
+      x: 0,
+      y: 0,
     };
-    this.handleClickEvent = this.handleClick.bind(this);
+    this.layoutValid = false;
+    this.root = null;
+    this.node = null;
+    this.cover = null;
   }
   componentDidMount() {
     this.mounted = true;
+    if (this.state.open) this.calcLayout();
   }
   componentWillUnmount() {
     this.mounted = false;
-    this.refs.cover.removeEventListener('click', this.handleClickEvent);
+  }
+  componentDidUpdate() {
+    if (this.state.open) this.calcLayout();
+  }
+  registerRoot(root) {
+    this.root = root;
+  }
+  registerNode(node) {
+    this.node = node;
+  }
+  registerCover(cover) {
+    // Cover will disappear right after closing - we don't need to handle
+    // closing events.
+    if (this.cover !== cover && cover != null) {
+      this.cover = cover;
+      cover.addEventListener('click', this.handleClick.bind(this));
+    }
+  }
+  calcLayout() {
+    // Don't do layout if one of the nodes are missing.
+    if (this.root == null || this.node == null) return;
+    let { innerWidth, innerHeight } = window;
+    let nodeRect = this.node.getBoundingClientRect();
+    this.layoutValid = true;
+    let x, y;
+    let alignRect = this.root.getBoundingClientRect();
+    if (this.props.top) {
+      y = alignRect.top - nodeRect.height;
+      if (y < 0) {
+        y = Math.min(innerHeight - nodeRect.height, alignRect.bottom);
+      }
+    } else {
+      y = alignRect.bottom;
+      if (y + nodeRect.height > innerHeight) {
+        y = Math.max(0, alignRect.top - nodeRect.height);
+      }
+    }
+    x = alignRect.left;
+    if (x + nodeRect.width > innerWidth) {
+      x = Math.max(0, alignRect.right - nodeRect.width);
+    }
+    this.setState({ x, y });
   }
   handleClick(e) {
-    const { hidden } = this.state;
-    if (hidden) {
-      this.refs.cover.addEventListener('click', this.handleClickEvent);
-    } else {
-      this.refs.cover.removeEventListener('click', this.handleClickEvent);
-    }
+    const { open } = this.state;
     if (this.mounted) {
       this.setState({
-        hidden: !hidden,
+        open: !open,
       });
+      this.layoutValid = false;
     }
     e.preventDefault();
   }
   render() {
-    const { hidden } = this.state;
-    const buttonContent = (
-      <a href={this.props.href || '#'}>
-        <span className={style.title}>{this.props.title}</span>
-      </a>
-    );
+    const { open, x, y } = this.state;
+    const { title, children, preventClose } = this.props;
     return (
-      <div className={classNames(style.dropDown, { [style.hidden]: hidden })}>
-        <div className={style.cover} ref='cover' />
-        <div className={style.button} onClick={this.handleClick.bind(this)}>
-          {buttonContent}
-        </div>
-        <Portal isOpened={!hidden}>
-          <div className={style.content}>
-            { this.props.preventClose ? (
-              this.props.children
-            ) : (
-              cloneElement(this.props.children, {
-                onClick: this.handleClick.bind(this),
-              })
-            ) }
-          </div>
-        </Portal>
+      <div className={classNames(style.dropDown, { [style.open]: open })}
+        ref={this.registerRoot.bind(this)}
+      >
+        <button className={style.button} onClick={this.handleClick.bind(this)}>
+          { title }
+        </button>
+        { open && (
+          <Portal>
+            <div className={style.dropDownPortal} style={{
+              position: 'absolute',
+              left: x + 'px',
+              top: y + 'px',
+            }}>
+              <div className={style.cover}
+                ref={this.registerCover.bind(this)} />
+              <div className={style.content} ref={this.registerNode.bind(this)}>
+                { preventClose ? (
+                  children
+                ) : (
+                  cloneElement(children, {
+                    onClick: this.handleClick.bind(this),
+                  })
+                ) }
+              </div>
+            </div>
+          </Portal>
+        ) }
       </div>
     );
   }
