@@ -1,4 +1,4 @@
-import React, { Component, cloneElement } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Portal from 'react-portal-minimal';
@@ -17,16 +17,36 @@ export default class DropDown extends Component {
     this.root = null;
     this.node = null;
     this.cover = null;
+    // Used to update layout if the window is resized.
+    this.requestLayout = () => {
+      this.layoutValid = false;
+      this.calcLayout();
+    };
   }
   componentDidMount() {
     this.mounted = true;
-    if (this.state.open) this.calcLayout();
+    if (this.state.open) {
+      this.calcLayout();
+      window.addEventListener('resize', this.requestLayout);
+    }
   }
   componentWillUnmount() {
     this.mounted = false;
+    if (this.state.open) {
+      window.removeEventListener('resize', this.requestLayout);
+    }
   }
   componentDidUpdate() {
     if (this.state.open) this.calcLayout();
+  }
+  componentWillUpdate(nextProps, nextState) {
+    if (this.state.open !== nextState.open) {
+      if (nextState.open) {
+        window.addEventListener('resize', this.requestLayout);
+      } else {
+        window.removeEventListener('resize', this.requestLayout);
+      }
+    }
   }
   registerRoot(root) {
     this.root = root;
@@ -45,6 +65,7 @@ export default class DropDown extends Component {
   calcLayout() {
     // Don't do layout if one of the nodes are missing.
     if (this.root == null || this.node == null) return;
+    if (this.layoutValid) return;
     let { innerWidth, innerHeight } = window;
     this.layoutValid = true;
     let x, y;
@@ -61,7 +82,7 @@ export default class DropDown extends Component {
     let diffLeft = scrollLeft - clientLeft;
     if (this.props.top) {
       y = alignRect.top + diffTop - nodeRect.height;
-      if (y < 0) {
+      if (y < diffTop) {
         y = Math.min(innerHeight - nodeRect.height, alignRect.bottom + diffTop);
       }
     } else {
@@ -70,9 +91,16 @@ export default class DropDown extends Component {
         y = Math.max(0, alignRect.top + diffTop - nodeRect.height);
       }
     }
-    x = alignRect.left + diffLeft;
-    if (x + nodeRect.width > innerWidth + diffLeft) {
-      x = Math.max(0, alignRect.right + diffLeft - nodeRect.width);
+    if (this.props.left) {
+      x = alignRect.left + diffLeft;
+      if (x + nodeRect.width > innerWidth + diffLeft) {
+        x = Math.max(0, alignRect.right + diffLeft - nodeRect.width);
+      }
+    } else {
+      x = alignRect.right + diffLeft - nodeRect.width;
+      if (x < diffLeft) {
+        x = Math.min(innerWidth - nodeRect.width, alignRect.right + diffLeft);
+      }
     }
     this.setState({ x, y });
   }
@@ -88,7 +116,7 @@ export default class DropDown extends Component {
   }
   render() {
     const { open, x, y } = this.state;
-    const { title, children, preventClose } = this.props;
+    const { title, children, preventClose, top, left } = this.props;
     return (
       <div className={classNames(style.dropDown, { [style.open]: open })}
         ref={this.registerRoot.bind(this)}
@@ -98,21 +126,21 @@ export default class DropDown extends Component {
         </button>
         { open && (
           <Portal>
-            <div className={style.dropDownPortal} style={{
+            <div className={classNames(style.dropDownPortal, {
+              [style.top]: top,
+              [style.left]: left,
+            })} style={{
               position: 'absolute',
               left: x + 'px',
               top: y + 'px',
             }}>
               <div className={style.cover}
                 ref={this.registerCover.bind(this)} />
-              <div className={style.content} ref={this.registerNode.bind(this)}>
-                { preventClose ? (
-                  children
-                ) : (
-                  cloneElement(children, {
-                    onClick: this.handleClick.bind(this),
-                  })
-                ) }
+              <div className={style.content}
+                onClick={!preventClose && this.handleClick.bind(this)}
+                ref={this.registerNode.bind(this)}
+              >
+                { children }
               </div>
             </div>
           </Portal>
@@ -127,4 +155,6 @@ DropDown.propTypes = {
   children: PropTypes.node,
   title: PropTypes.node,
   preventClose: PropTypes.bool,
+  top: PropTypes.bool,
+  left: PropTypes.bool,
 };

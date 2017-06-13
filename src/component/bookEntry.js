@@ -54,7 +54,7 @@ export default class BookEntry extends Component {
           <p className={style.details} />
           <div className={style.menu}>
             <DropDown title={<FaCaretDown />}>
-              <div>aa</div>
+              <div>aa and that</div>
             </DropDown>
           </div>
         </div>
