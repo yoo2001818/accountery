@@ -50,7 +50,7 @@
     box-sizing: border-box;
     padding: 0.5em 0;
     margin-top: 10px;
-    margin-left: 0.5em;
+    margin-left: 0.4em;
     background-color: var(--grey-100);
     color: var(--grey-800);
     border: 1px solid var(--grey-400);
@@ -62,7 +62,7 @@
       content: '';
       position: absolute;
       top: -20px;
-      right: 0.5em;
+      right: 0.4em;
       margin-right: 0;
       @mixin triangle-top 10px, 10px, var(--grey-400);
     }
@@ -70,22 +70,22 @@
       content: '';
       position: absolute;
       top: -18px;
-      right: 0.5em;
+      right: 0.4em;
       margin-right: 1px;
       @mixin triangle-top 9px, 9px, var(--grey-100);
     }
   }
   &.left > .content {
-    margin-left: -0.5em;
+    margin-left: -0.4em;
     &:before {
       right: auto;
-      left: 0.5em;
+      left: 0.4em;
       margin-left: 0;
       margin-right: 0;
     }
     &:after {
       right: auto;
-      left: 0.5em;
+      left: 0.4em;
       margin-left: 1px;
       margin-right: 0;
     }

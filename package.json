@@ -28,6 +28,7 @@
     "react-icons": "^2.2.5",
     "react-portal-minimal": "^4.0.2",
     "react-redux": "^5.0.5",
+    "react-textarea-autosize": "^5.0.6",
     "redux": "^3.6.0",
     "redux-actions": "^2.0.3",
     "redux-logger": "^3.0.6",

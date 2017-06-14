@@ -44,7 +44,7 @@ export default class Ledger extends Component {
               <BookEntry entry={Object.assign({}, entrySchema, {
                 accounts: entrySchema.accounts.map(info => Object.assign({},
                   info, { account: accountSchema[info.id] })),
-              })} />
+              })} editing />
             </li>
           )) }
         </BookDateEntry>

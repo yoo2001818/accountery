@@ -38,19 +38,21 @@
       margin: 0;
       padding: 0;
     }
-    & > .details {
-      margin: 0;
-      padding: 0;
-      float: right;
-      font-size: 0.9em;
-      color: var(--grey-600);
-      text-align: right;
-      & > .id {
-        font-family: var(--font-monospace);
-      }
+    & > textarea.description {
+      /* I usually hate to do this, but there was no other way. */
+      width: calc(100% - 1.5em);
+      padding: 0.2em;
+      box-sizing: border-box;
+      border: none;
+      border-bottom: 1px solid var(--grey-500);
+      color: inherit;
+      background: none;
+      resize: none;
     }
     & > .menu {
       float: right;
+      width: 1.5em;
+      text-align: center;
       margin-right: -0.2em;
       color: var(--grey-600);
       & > .dropDown {
@@ -138,18 +140,33 @@
       content: ')';
     }
   }
-  & > .value {
+  & > .right {
     float: right;
-    font-family: var(--font-monospace);
-    text-align: right;
-    &.positive {
-      color: var(--green-800);
-      &:before {
-        content: '+';
+    & > .value {
+      font-family: var(--font-monospace);
+      text-align: right;
+      vertical-align: middle;
+      &.positive {
+        color: var(--green-800);
+        &:before {
+          content: '+';
+        }
+      }
+      &.negative {
+        color: var(--red-800);
       }
     }
-    &.negative {
+    & > .delete {
+      margin: 0 0 0 0.2em;
+      padding: 0 0.2em;
+      border: none;
+      background: none;
+      font-size: 0.8em;
+      vertical-align: middle;
       color: var(--red-800);
+      &:hover {
+        color: var(--red-600);
+      }
     }
   }
   &:after {
