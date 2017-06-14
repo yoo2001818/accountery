@@ -17,9 +17,22 @@ html, body {
 }
 
 input, textarea {
+  width: 100%;
+  padding: 0.5em 0.6em;
+  box-sizing: border-box;
+  background-color: var(--grey-000);
+  color: var(--grey-800);
+  border: 1px solid var(--grey-400);
+  border-radius: 2px;
   font-family: var(--font-normal);
   line-height: 1.2em;
   font-size: 1em;
+  &:hover {
+    border-color: var(--grey-500);
+  }
+  &:active, &:focus {
+    border-color: var(--blue-500);
+  }
 }
 
 .root, .app {

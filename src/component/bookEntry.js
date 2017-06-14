@@ -29,14 +29,19 @@ export default class BookEntry extends Component {
     // editing since every field has to stay on a single line - it doesn't get
     // changed...
     return (
-      <li className={style.accountDiff} key={key}>
+      <li className={classNames(style.accountDiff, {
+        [style.editing]: editing,
+      })} key={key}>
         <span className={classNames(style.name, accountClassName)}>
           { account.name }
         </span>
-        { note && (
+        { note && !editing && (
           <span className={style.note}>
             { note }
           </span>
+        ) }
+        { editing && (
+          <input type='text' className={style.note} value={note} />
         ) }
         <div className={style.right}>
           <span className={classNames(style.value,
@@ -61,7 +66,10 @@ export default class BookEntry extends Component {
   render() {
     const { entry: { accounts, summary }, focus, editing } = this.props;
     return (
-      <div className={classNames(style.bookEntry, { [style.focus]: focus })}>
+      <div className={classNames(style.bookEntry, {
+        [style.focus]: focus,
+        [style.editing]: editing,
+      })}>
         <ul className={style.accountDiffs}>
           { accounts.map(this.renderAccountDiff.bind(this)) }
         </ul>
