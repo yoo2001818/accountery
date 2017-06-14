@@ -116,9 +116,12 @@ export default class DropDown extends Component {
   }
   render() {
     const { open, x, y } = this.state;
-    const { title, children, preventClose, top, left } = this.props;
+    const { title, children, preventClose, top, left,
+      className, openClassName } = this.props;
     return (
-      <div className={classNames(style.dropDown, { [style.open]: open })}
+      <div
+        className={classNames(style.dropDown, className,
+          open && style.open, open && openClassName)}
         ref={this.registerRoot.bind(this)}
       >
         <button className={style.button} onClick={this.handleClick.bind(this)}>
@@ -157,4 +160,6 @@ DropDown.propTypes = {
   preventClose: PropTypes.bool,
   top: PropTypes.bool,
   left: PropTypes.bool,
+  className: PropTypes.string,
+  openClassName: PropTypes.string,
 };

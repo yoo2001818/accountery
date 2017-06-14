@@ -53,7 +53,9 @@ export default class BookEntry extends Component {
           </p>
           <p className={style.details} />
           <div className={style.menu}>
-            <DropDown title={<FaCaretDown />}>
+            <DropDown title={<FaCaretDown />}
+              className={style.dropDown} openClassName={style.open}
+            >
               <div>aa and that</div>
             </DropDown>
           </div>
