@@ -54,7 +54,9 @@ class AccountDiff extends Component {
           <span className={classNames(style.value,
             value > 0 ? style.positive : style.negative)}
           >
-            { formatter.format(value) }
+            { editing ? (
+              <input type='text' className={style.value} value={value} />
+            ) : formatter.format(value) }
           </span>
           { editing && (
             <button className={style.delete} onClick={onDelete}>

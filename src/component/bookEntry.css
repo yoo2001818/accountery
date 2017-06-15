@@ -144,6 +144,25 @@
     & > .right {
       float: right;
       text-align: right;
+      & > .value {
+        &:before {
+          display: none;
+        }
+        display: inline-block;
+        width: 10em;
+        & > input {
+          width: 100%;
+          margin: 0.2em 0;
+          padding: 0.2em;
+          border: none;
+          border-bottom: 1px solid var(--grey-500);
+          border-radius: 0;
+          color: inherit;
+          font-family: inherit;
+          background: none;
+          text-align: right;
+        }
+      }
     }
     & > .noteButton {
       & > button {
