@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import Textarea from 'react-textarea-autosize';
 import FaCaretDown from 'react-icons/lib/fa/caret-down';
 import FaMinus from 'react-icons/lib/fa/minus';
+import FaComment from 'react-icons/lib/fa/comment';
 
 import DropDown from './dropDown';
 import style from './bookEntry.css';
@@ -15,10 +16,23 @@ const ACCOUNT_DIFF_STYLES = {
   liability: style.liability,
 };
 
-export default class BookEntry extends Component {
-  renderAccountDiff(diff, key) {
-    const { editing } = this.props;
-    const { account, note, value } = diff;
+class AccountDiff extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { editNote: false };
+  }
+  toggleNote(e) {
+    const { editNote } = this.state;
+    this.setState({ editNote: !editNote });
+  }
+  handleNoteRef(node) {
+    if (node == null) return;
+    node.focus();
+    node.addEventListener('blur', () => this.setState({ editNote: false }));
+  }
+  render() {
+    const { editing, diff: { account, note, value }, onDelete } = this.props;
+    const { editNote } = this.state;
     // TODO Move this to somewhere else
     const formatter = new Intl.NumberFormat(undefined,
       { style: 'currency', currency: account.currency });
@@ -31,7 +45,8 @@ export default class BookEntry extends Component {
     return (
       <li className={classNames(style.accountDiff, {
         [style.editing]: editing,
-      })} key={key}>
+        [style.editNote]: editNote,
+      })}>
         <span className={classNames(style.name, accountClassName)}>
           { account.name }
         </span>
@@ -42,23 +57,41 @@ export default class BookEntry extends Component {
             { formatter.format(value) }
           </span>
           { editing && (
-            <button className={style.delete}
-              onClick={this.handleAccountDiffDelete.bind(this, key)}
-            >
+            <button className={style.delete} onClick={onDelete}>
               <FaMinus />
             </button>
           ) }
         </div>
         { (note || editing) && (
           <span className={style.note}>
-            { editing ? (
-              <input type='text' className={style.input} value={note} />
+            { (editing && editNote) ? (
+              <input type='text' className={style.input} value={note}
+                ref={this.handleNoteRef.bind(this)} />
             ) : note }
+          </span>
+        ) }
+        { editing && (
+          <span className={style.noteButton}>
+            <button className={style.comment}
+              onMouseDown={e => e.preventDefault()}
+              onClick={this.toggleNote.bind(this)}
+            >
+              <FaComment />
+            </button>
           </span>
         ) }
       </li>
     );
   }
+}
+
+AccountDiff.propTypes = {
+  editing: PropTypes.bool,
+  diff: PropTypes.object,
+  onDelete: PropTypes.func,
+};
+
+export default class BookEntry extends Component {
   handleAccountDiffDelete(key) {
     // TODO
   }
@@ -70,7 +103,9 @@ export default class BookEntry extends Component {
         [style.editing]: editing,
       })}>
         <ul className={style.accountDiffs}>
-          { accounts.map(this.renderAccountDiff.bind(this)) }
+          { accounts.map((diff, key) => (
+            <AccountDiff diff={diff} editing={editing} key={key} />
+          )) }
         </ul>
         <div className={style.content}>
           { editing ? (
