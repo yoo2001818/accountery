@@ -35,14 +35,6 @@ export default class BookEntry extends Component {
         <span className={classNames(style.name, accountClassName)}>
           { account.name }
         </span>
-        { note && !editing && (
-          <span className={style.note}>
-            { note }
-          </span>
-        ) }
-        { editing && (
-          <input type='text' className={style.note} value={note} />
-        ) }
         <div className={style.right}>
           <span className={classNames(style.value,
             value > 0 ? style.positive : style.negative)}
@@ -57,6 +49,13 @@ export default class BookEntry extends Component {
             </button>
           ) }
         </div>
+        { (note || editing) && (
+          <span className={style.note}>
+            { editing ? (
+              <input type='text' className={style.input} value={note} />
+            ) : note }
+          </span>
+        ) }
       </li>
     );
   }

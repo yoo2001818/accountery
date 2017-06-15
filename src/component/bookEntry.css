@@ -1,5 +1,6 @@
 @import url(../style/color.css);
 @import url(../style/font.css);
+@import url(../style/responsive.css);
 
 .bookEntry {
   position: relative;
@@ -45,6 +46,7 @@
       box-sizing: border-box;
       border: none;
       border-bottom: 1px solid var(--grey-500);
+      border-radius: 0;
       color: inherit;
       background: none;
       resize: none;
@@ -89,7 +91,8 @@
   }
   & > .note {
     font-size: 0.9em;
-    margin-left: 0.2em;
+    padding-left: 0.2em;
+    box-sizing: border-box;
     color: var(--grey-600);
     &:before {
       content: '(';
@@ -133,21 +136,46 @@
     clear: both;
   }
   &.editing {
-    /* Uhhhh....  Let's give up IE - Why should I support it? */
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    width: 100%;
     & > .name {
-      flex: 0 0 auto;
+      float: left;
+      min-width: 6em;
+      vertical-align: middle;
+      padding: 0.2em 0;
     }
     & > .note {
-      flex: 1 1 0;
-      margin: 0;
+      float: left;
+      display: block;
+      width: 100%;
+      vertical-align: middle;
+      &:before {
+        display: none;
+        content: '';
+      }
+      &:after {
+        display: none;
+        content: '';
+      }
+      & > input {
+        width: 100%;
+        margin: 0;
+        padding: 0.2em;
+        border: none;
+        border-bottom: 1px solid var(--grey-500);
+        border-radius: 0;
+        color: inherit;
+        background: none;
+      }
     }
     & > .right {
+      float: right;
       text-align: right;
-      float: none;
-      flex: 0 0 auto;
+      padding: 0.2em 0;
+    }
+    @media (--tablet) {
+      & > .note {
+        width: calc(100% - 18em);
+      }
     }
   }
 }
