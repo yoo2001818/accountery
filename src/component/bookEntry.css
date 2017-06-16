@@ -140,19 +140,25 @@
     & > .name {
       float: left;
       vertical-align: middle;
+      line-height: 1.6em;
     }
     & > .right {
       float: right;
       text-align: right;
+      line-height: 1.6em;
+      white-space: nowrap;
+      width: calc(100% - 10em);
+      max-width: 14em;
+      display: table;
       & > .value {
         &:before {
           display: none;
         }
-        display: inline-block;
-        width: 10em;
+        display: table-cell;
+        width: 100%;
         & > input {
           width: 100%;
-          margin: 0.2em 0;
+          margin: 0;
           padding: 0.2em;
           border: none;
           border-bottom: 1px solid var(--grey-500);
@@ -164,7 +170,11 @@
         }
       }
     }
+    & > .note {
+      line-height: 1.6em;
+    }
     & > .noteButton {
+      line-height: 1.6em;
       & > button {
         margin: 0 0 0 0.2em;
         padding: 0 0.2em;
@@ -207,11 +217,4 @@
       display: none;
     }
   }
-    /*
-    @media (--tablet) {
-      & > .note {
-        width: calc(100% - 18em);
-      }
-    }
-    */
 }
