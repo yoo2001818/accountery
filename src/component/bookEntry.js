@@ -18,6 +18,7 @@ const ACCOUNT_DIFF_STYLES = {
 };
 
 const ACCOUNT_PLACEHOLDER = {
+  id: 'placeholder',
   name: '선택...',
   type: 'placeholder',
   currency: 'KRW',
@@ -26,14 +27,17 @@ const ACCOUNT_PLACEHOLDER = {
 class AccountDiff extends Component {
   constructor(props) {
     super(props);
+    this.noteNode = null;
     this.state = { editNote: false };
   }
   toggleNote(e) {
     const { editNote } = this.state;
     this.setState({ editNote: !editNote });
+    e.preventDefault();
   }
   handleNoteRef(node) {
-    if (node == null) return;
+    if (node == null || this.noteNode === node) return;
+    this.noteNode = node;
     node.focus();
     node.select();
     node.addEventListener('blur', () => this.setState({ editNote: false }));
@@ -43,9 +47,10 @@ class AccountDiff extends Component {
   }
   handleValueChange(e) {
     const { diff, onChange } = this.props;
-    if (onChange != null) {
+    let value = parseFloat(e.target.value);
+    if (onChange != null && !isNaN(value)) {
       onChange(Object.assign({}, diff, {
-        value: parseFloat(e.target.value),
+        value: value,
       }));
     }
   }
@@ -58,8 +63,9 @@ class AccountDiff extends Component {
     }
   }
   render() {
-    const { editing, deletable, diff: { account, note, value }, onDelete,
-      } = this.props;
+    const { editing, deletable, diff, onDelete } = this.props;
+    let { account, note, value } = diff;
+    if (account == null) account = ACCOUNT_PLACEHOLDER;
     const { editNote } = this.state;
     // TODO Move this to somewhere else
     const formatter = new Intl.NumberFormat(undefined,
@@ -105,12 +111,12 @@ class AccountDiff extends Component {
                 onChange={this.handleNoteChange.bind(this)}
                 ref={this.handleNoteRef.bind(this)} />
             ) : (
-              <button className={style.noteButton}
+              <a className={style.noteButton} href='#'
                 onMouseDown={e => e.preventDefault()}
                 onClick={this.toggleNote.bind(this)}
               >
                 { note || <FaComment /> }
-              </button>
+              </a>
             ) }
           </span>
         ) }

@@ -6,6 +6,23 @@ import BookDateEntry from '../component/bookDateEntry';
 import BookEntry from '../component/bookEntry';
 
 export default class Ledger extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      entry: {
+        id: '01234567',
+        date: Date.now(),
+        accounts: [
+          { id: '0abcd', value: 105400, note: '갸아악' },
+          { id: '0cdef', value: -236789, note: '' },
+        ],
+        summary: '버튼 잘못 눌러서 돈 나감',
+      },
+    };
+  }
+  handleEntryChange(value) {
+    this.setState({ entry: value });
+  }
   render() {
     const accountSchema = {
       '0abcd': {
@@ -20,15 +37,7 @@ export default class Ledger extends Component {
         currency: 'KRW',
       },
     };
-    const entrySchema = {
-      id: '01234567',
-      date: Date.now(),
-      accounts: [
-        { id: '0abcd', value: 105400, note: '갸아악' },
-        { id: '0cdef', value: -236789, note: '' },
-      ],
-      summary: '버튼 잘못 눌러서 돈 나감',
-    };
+    const entrySchema = this.state.entry;
     // Apply accountSchema to entrySchema - 'flatten' it.
     return (
       <div className={style.ledger} >
@@ -37,14 +46,14 @@ export default class Ledger extends Component {
             <BookEntry entry={Object.assign({}, entrySchema, {
               accounts: entrySchema.accounts.map(info => Object.assign({},
                 info, { account: accountSchema[info.id] })),
-            })} focus />
+            })} focus onChange={this.handleEntryChange.bind(this)} />
           </li>
           { [0, 1, 2, 3, 4].map(v => (
             <li key={v}>
               <BookEntry entry={Object.assign({}, entrySchema, {
                 accounts: entrySchema.accounts.map(info => Object.assign({},
                   info, { account: accountSchema[info.id] })),
-              })} editing />
+              })} editing onChange={this.handleEntryChange.bind(this)} />
             </li>
           )) }
         </BookDateEntry>
