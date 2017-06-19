@@ -73,9 +73,6 @@ class AccountDiff extends Component {
     // This is so unnecessary, but I wanted to make sure only selected types
     // are accepted as class name.
     const accountClassName = ACCOUNT_DIFF_STYLES[account.type];
-    // TODO Unlike other stuff, maybe we should use different layout while
-    // editing since every field has to stay on a single line - it doesn't get
-    // changed...
     return (
       <li className={classNames(style.accountDiff, {
         [style.editing]: editing,
@@ -86,10 +83,11 @@ class AccountDiff extends Component {
         </span>
         <div className={style.right}>
           <span className={classNames(style.value,
-            value > 0 ? style.positive : style.negative)}
+            value > 0 ? style.positive : (value < 0 && style.negative))}
           >
             { editing ? (
-              <CachedTextInput type='text' className={style.value} value={value}
+              <CachedTextInput type='number' className={style.value}
+                value={String(value)}
                 onChange={this.handleValueChange.bind(this)} />
             ) : formatter.format(value) }
           </span>
