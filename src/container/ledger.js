@@ -25,7 +25,7 @@ export default class Ledger extends Component {
       date: Date.now(),
       accounts: [
         { id: '0abcd', value: 105400, note: '갸아악' },
-        { id: '0cdef', value: -236789, note: '그아악' },
+        { id: '0cdef', value: -236789, note: '' },
       ],
       summary: '버튼 잘못 눌러서 돈 나감',
     };

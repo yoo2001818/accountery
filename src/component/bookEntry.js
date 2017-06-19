@@ -64,22 +64,24 @@ class AccountDiff extends Component {
             </button>
           ) }
         </div>
-        { (note || editing) && (
+        { note && !editing && (
           <span className={style.note}>
-            { (editing && editNote) ? (
-              <input type='text' className={style.input} value={note}
-                ref={this.handleNoteRef.bind(this)} />
-            ) : note }
+            { note }
           </span>
         ) }
         { editing && (
-          <span className={style.noteButton}>
-            <button className={style.comment}
-              onMouseDown={e => e.preventDefault()}
-              onClick={this.toggleNote.bind(this)}
-            >
-              <FaComment />
-            </button>
+          <span className={style.note}>
+            { editNote ? (
+              <input type='text' className={style.input} value={note}
+                ref={this.handleNoteRef.bind(this)} />
+            ) : (
+              <button className={style.noteButton}
+                onMouseDown={e => e.preventDefault()}
+                onClick={this.toggleNote.bind(this)}
+              >
+                { note || <FaComment /> }
+              </button>
+            ) }
           </span>
         ) }
       </li>
