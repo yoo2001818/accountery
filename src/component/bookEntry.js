@@ -6,6 +6,7 @@ import FaCaretDown from 'react-icons/lib/fa/caret-down';
 import FaMinus from 'react-icons/lib/fa/minus';
 import FaComment from 'react-icons/lib/fa/comment';
 
+import CachedTextInput from './cachedTextInput';
 import DropDown from './dropDown';
 import style from './bookEntry.css';
 
@@ -14,6 +15,12 @@ const ACCOUNT_DIFF_STYLES = {
   expense: style.expense,
   asset: style.asset,
   liability: style.liability,
+};
+
+const ACCOUNT_PLACEHOLDER = {
+  name: '선택...',
+  type: 'placeholder',
+  currency: 'KRW',
 };
 
 class AccountDiff extends Component {
@@ -28,10 +35,31 @@ class AccountDiff extends Component {
   handleNoteRef(node) {
     if (node == null) return;
     node.focus();
+    node.select();
     node.addEventListener('blur', () => this.setState({ editNote: false }));
   }
+  handleAccountChange(e) {
+
+  }
+  handleValueChange(e) {
+    const { diff, onChange } = this.props;
+    if (onChange != null) {
+      onChange(Object.assign({}, diff, {
+        value: parseFloat(e.target.value),
+      }));
+    }
+  }
+  handleNoteChange(e) {
+    const { diff, onChange } = this.props;
+    if (onChange != null) {
+      onChange(Object.assign({}, diff, {
+        note: e.target.value,
+      }));
+    }
+  }
   render() {
-    const { editing, diff: { account, note, value }, onDelete } = this.props;
+    const { editing, deletable, diff: { account, note, value }, onDelete,
+      } = this.props;
     const { editNote } = this.state;
     // TODO Move this to somewhere else
     const formatter = new Intl.NumberFormat(undefined,
@@ -55,10 +83,11 @@ class AccountDiff extends Component {
             value > 0 ? style.positive : style.negative)}
           >
             { editing ? (
-              <input type='text' className={style.value} value={value} />
+              <CachedTextInput type='text' className={style.value} value={value}
+                onChange={this.handleValueChange.bind(this)} />
             ) : formatter.format(value) }
           </span>
-          { editing && (
+          { deletable && (
             <button className={style.delete} onClick={onDelete}>
               <FaMinus />
             </button>
@@ -69,10 +98,11 @@ class AccountDiff extends Component {
             { note }
           </span>
         ) }
-        { editing && (
+        { editing && account.type !== 'placeholder' && (
           <span className={style.note}>
             { editNote ? (
               <input type='text' className={style.input} value={note}
+                onChange={this.handleNoteChange.bind(this)}
                 ref={this.handleNoteRef.bind(this)} />
             ) : (
               <button className={style.noteButton}
@@ -91,16 +121,48 @@ class AccountDiff extends Component {
 
 AccountDiff.propTypes = {
   editing: PropTypes.bool,
+  deletable: PropTypes.bool,
   diff: PropTypes.object,
+  onChange: PropTypes.func,
   onDelete: PropTypes.func,
+  renderAccountList: PropTypes.func,
 };
 
 export default class BookEntry extends Component {
   handleAccountDiffDelete(key) {
-    // TODO
+    const { entry, onChange } = this.props;
+    if (onChange != null) {
+      onChange(Object.assign({}, entry, {
+        accounts: entry.accounts.filter((original, id) => id !== key),
+      }));
+    }
+  }
+  handleAccountDiffChange(key, value) {
+    const { entry, onChange } = this.props;
+    if (onChange != null) {
+      if (key === 'new') {
+        onChange(Object.assign({}, entry, {
+          accounts: entry.accounts.concat(value),
+        }));
+      } else {
+        onChange(Object.assign({}, entry, {
+          accounts: entry.accounts.map((original, id) =>
+            id === key ? value : original),
+        }));
+      }
+    }
+  }
+  handleContentChange(e) {
+    const { entry, onChange } = this.props;
+    if (onChange != null) {
+      onChange(Object.assign({}, entry, {
+        summary: e.target.value,
+      }));
+    }
   }
   render() {
-    const { entry: { accounts, summary }, focus, editing } = this.props;
+    const { entry: { accounts, summary }, focus, editing, renderAccountList,
+      } = this.props;
     return (
       <div className={classNames(style.bookEntry, {
         [style.focus]: focus,
@@ -108,8 +170,16 @@ export default class BookEntry extends Component {
       })}>
         <ul className={style.accountDiffs}>
           { accounts.map((diff, key) => (
-            <AccountDiff diff={diff} editing={editing} key={key} />
+            <AccountDiff diff={diff} editing={editing} deletable={editing}
+              onChange={this.handleAccountDiffChange.bind(this, key)}
+              onDelete={this.handleAccountDiffDelete.bind(this, key)}
+              key={key} />
           )) }
+          { editing && (
+            <AccountDiff diff={{ account: ACCOUNT_PLACEHOLDER }}
+              editing={editing}
+              onChange={this.handleAccountDiffChange.bind(this, 'new')} />
+          ) }
         </ul>
         <div className={style.content}>
           { editing ? (
@@ -137,4 +207,6 @@ BookEntry.propTypes = {
   entry: PropTypes.object,
   focus: PropTypes.bool,
   editing: PropTypes.bool,
+  renderAccountList: PropTypes.func,
+  onChange: PropTypes.func,
 };
