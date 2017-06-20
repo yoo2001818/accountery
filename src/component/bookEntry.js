@@ -63,7 +63,7 @@ class AccountDiff extends Component {
     }
   }
   render() {
-    const { editing, deletable, diff, onDelete } = this.props;
+    const { editing, deletable, diff, onDelete, renderAccountList } = this.props;
     let { account, note, value } = diff;
     if (account == null) account = ACCOUNT_PLACEHOLDER;
     const { editNote } = this.state;
@@ -79,7 +79,11 @@ class AccountDiff extends Component {
         [style.editNote]: editNote,
       })}>
         <span className={classNames(style.name, accountClassName)}>
-          { account.name }
+          { editing ? (
+            <DropDown title={account.name} left className={style.dropDown}>
+              { renderAccountList(account) }
+            </DropDown>
+          ) : account.name }
         </span>
         <div className={style.right}>
           <span className={classNames(style.value,
@@ -177,11 +181,13 @@ export default class BookEntry extends Component {
             <AccountDiff diff={diff} editing={editing} deletable={editing}
               onChange={this.handleAccountDiffChange.bind(this, key)}
               onDelete={this.handleAccountDiffDelete.bind(this, key)}
+              renderAccountList={renderAccountList}
               key={key} />
           )) }
           { editing && (
             <AccountDiff diff={{ account: ACCOUNT_PLACEHOLDER }}
               editing={editing}
+              renderAccountList={renderAccountList}
               onChange={this.handleAccountDiffChange.bind(this, 'new')} />
           ) }
         </ul>

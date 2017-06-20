@@ -38,22 +38,33 @@ export default class Ledger extends Component {
       },
     };
     const entrySchema = this.state.entry;
+    const renderAccountList = () => (
+      <div>Test</div>
+    );
     // Apply accountSchema to entrySchema - 'flatten' it.
     return (
-      <div className={style.ledger} >
+      <div className={style.ledger}>
         <BookDateEntry date={Date.now()}>
           <li>
-            <BookEntry entry={Object.assign({}, entrySchema, {
-              accounts: entrySchema.accounts.map(info => Object.assign({},
-                info, { account: accountSchema[info.id] })),
-            })} focus onChange={this.handleEntryChange.bind(this)} />
+            <BookEntry focus
+              entry={Object.assign({}, entrySchema, {
+                accounts: entrySchema.accounts.map(info => Object.assign({},
+                  info, { account: accountSchema[info.id] })),
+              })}
+              onChange={this.handleEntryChange.bind(this)}
+              renderAccountList={renderAccountList}
+            />
           </li>
           { [0, 1, 2, 3, 4].map(v => (
             <li key={v}>
-              <BookEntry entry={Object.assign({}, entrySchema, {
-                accounts: entrySchema.accounts.map(info => Object.assign({},
-                  info, { account: accountSchema[info.id] })),
-              })} editing onChange={this.handleEntryChange.bind(this)} />
+              <BookEntry editing
+                entry={Object.assign({}, entrySchema, {
+                  accounts: entrySchema.accounts.map(info => Object.assign({},
+                    info, { account: accountSchema[info.id] })),
+                })}
+                onChange={this.handleEntryChange.bind(this)}
+                renderAccountList={renderAccountList}
+              />
             </li>
           )) }
         </BookDateEntry>
