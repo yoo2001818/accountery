@@ -81,7 +81,9 @@ class AccountDiff extends Component {
       })}>
         <span className={classNames(style.name, accountClassName)}>
           { editing ? (
-            <DropDown title={account.name} left className={style.dropDown}>
+            <DropDown title={account.name} left preventClose
+              className={style.dropDown}
+            >
               { renderAccountList(account) }
             </DropDown>
           ) : account.name }
