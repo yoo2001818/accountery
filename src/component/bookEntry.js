@@ -46,7 +46,8 @@ class AccountDiff extends Component {
 
   }
   handleValueChange(e) {
-    const { diff, onChange } = this.props;
+    const { diff, onChange, onDelete } = this.props;
+    if (e.target.value === '' && onDelete != null) onDelete();
     let value = parseFloat(e.target.value);
     if (onChange != null && !isNaN(value)) {
       onChange(Object.assign({}, diff, {
@@ -92,11 +93,12 @@ class AccountDiff extends Component {
             { editing ? (
               <CachedTextInput type='number' className={style.value}
                 value={String(value)}
+                onFocus={e => e.target.select()}
                 onChange={this.handleValueChange.bind(this)} />
             ) : formatter.format(value) }
           </span>
           { deletable && (
-            <button className={style.delete} onClick={onDelete}>
+            <button className={style.delete} onClick={onDelete} tabIndex={-1}>
               <FaMinus />
             </button>
           ) }
@@ -116,6 +118,7 @@ class AccountDiff extends Component {
               <a className={style.noteButton} href='#'
                 onMouseDown={e => e.preventDefault()}
                 onClick={this.toggleNote.bind(this)}
+                onFocus={this.toggleNote.bind(this)}
               >
                 { note || <FaComment /> }
               </a>
@@ -193,7 +196,8 @@ export default class BookEntry extends Component {
         </ul>
         <div className={style.content}>
           { editing ? (
-            <Textarea className={style.description} value={summary} />
+            <Textarea className={style.description} value={summary}
+              onChange={this.handleContentChange.bind(this)} />
           ) : (
             <p className={style.description}>
               { summary }

@@ -25,6 +25,7 @@ export default class CachedTextInput extends Component {
       locked: true,
       editValue: e.target.value,
     });
+    if (this.props.onFocus) this.props.onFocus(e);
   }
   handleBlur(e) {
     this.focus = false;
@@ -33,18 +34,31 @@ export default class CachedTextInput extends Component {
     });
     // Emit change event
     if (this.props.onChange) this.props.onChange(e);
+    if (this.props.onBlur) this.props.onBlur(e);
+  }
+  handleKeyDown(e) {
+    if (e.keyCode === 9) {
+      if (e.shiftKey) {
+        if (this.props.onPrevFocus) this.props.onPrevFocus(e);
+      } else {
+        if (this.props.onNextFocus) this.props.onNextFocus(e);
+      }
+    }
   }
   render() {
-    const { value, type = 'text', className, lockedClassName } = this.props;
+    const { value, type = 'text', tabIndex,
+      className, lockedClassName } = this.props;
     const { locked, editValue } = this.state;
     return (
       <input
         className={classNames(className, locked && lockedClassName)}
         type={type}
+        tabIndex={tabIndex}
         value={locked ? editValue : (value || '')}
         onChange={this.handleChange.bind(this)}
         onFocus={this.handleFocus.bind(this)}
         onBlur={this.handleBlur.bind(this)}
+        onKeyDown={this.handleKeyDown.bind(this)}
         ref={input => this.input = input}
         />
     );
@@ -53,8 +67,13 @@ export default class CachedTextInput extends Component {
 
 CachedTextInput.propTypes = {
   value: PropTypes.any,
+  tabIndex: PropTypes.number,
   type: PropTypes.string,
   className: PropTypes.string,
   lockedClassName: PropTypes.string,
   onChange: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  onNextFocus: PropTypes.func,
+  onPrevFocus: PropTypes.func,
 };

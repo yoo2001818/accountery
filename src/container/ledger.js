@@ -4,6 +4,7 @@ import style from './ledger.css';
 
 import BookDateEntry from '../component/bookDateEntry';
 import BookEntry from '../component/bookEntry';
+import SearchBox from '../component/searchBox';
 
 export default class Ledger extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ export default class Ledger extends Component {
     };
     const entrySchema = this.state.entry;
     const renderAccountList = () => (
-      <div>Test</div>
+      <SearchBox />
     );
     // Apply accountSchema to entrySchema - 'flatten' it.
     return (
