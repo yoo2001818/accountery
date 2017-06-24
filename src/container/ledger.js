@@ -40,7 +40,11 @@ export default class Ledger extends Component {
     };
     const entrySchema = this.state.entry;
     const renderAccountList = () => (
-      <SearchBox items={[<li>Test</li>]} />
+      <SearchBox>
+        { Array.from({ length: 30 }).map((_, i) => (
+          <li key={i}>Test</li>
+        )) }
+      </SearchBox>
     );
     // Apply accountSchema to entrySchema - 'flatten' it.
     return (

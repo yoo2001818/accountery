@@ -1,4 +1,4 @@
-import React, { Component, cloneElement } from 'react';
+import React, { Component, Children, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 
 import style from './searchBox.css';
@@ -6,14 +6,14 @@ import style from './searchBox.css';
 export default class SearchBox extends Component {
   constructor(props) {
     super(props);
-    this.state = { query: '', items: props.items || [] };
+    this.state = { query: '', items: props.children || [] };
     // Get current query...
     this.handleQuery('');
   }
   componentWillReceiveProps(nextProps) {
     // Immutable?
-    if (this.props.items !== nextProps.items) {
-      this.setState({ items: nextProps.items });
+    if (this.props.children !== nextProps.children) {
+      this.setState({ items: nextProps.children });
     }
   }
   handleQuery(query) {
@@ -46,10 +46,10 @@ export default class SearchBox extends Component {
             onChange={this.handleQueryChange.bind(this)} />
         </div>
         <ul className={style.list}>
-          { items.map((item, key) => (
+          { Children.map(items, (item) => (
             // This simply links onSelect to top-level - which means that
             // underlying element is responsible for handling onSelect.
-            cloneElement(item, { onSelect, key })
+            cloneElement(item, { onSelect })
           )) }
         </ul>
       </div>
@@ -61,6 +61,6 @@ SearchBox.propTypes = {
   onQuery: PropTypes.func,
   onSelect: PropTypes.func,
   // It shouldn't do any filtering by itself - onQuery should take care of it.
-  items: PropTypes.array,
+  children: PropTypes.array,
 };
 
