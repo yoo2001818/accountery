@@ -39,10 +39,10 @@ export default class Ledger extends Component {
       },
     };
     const entrySchema = this.state.entry;
-    const renderAccountList = () => (
+    const renderAccountList = (account) => (
       <SearchBox>
         { Array.from({ length: 30 }).map((_, i) => (
-          <li key={i}>Test</li>
+          <li key={i}>{ account.name }</li>
         )) }
       </SearchBox>
     );
