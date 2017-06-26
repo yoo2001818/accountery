@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import style from './searchBox.css';
 
@@ -36,8 +37,19 @@ export default class SearchBox extends Component {
     this.setState({ query: e.target.value });
     this.handleQuery(e.target.value);
   }
+  handleSelect(index) {
+    const { onSelect } = this.props;
+    const { data } = this.state;
+    if (onSelect == null) return;
+    onSelect(data[index]);
+  }
   render() {
-    const { onSelect, titleName, idName } = this.props;
+    const {
+      titleName = 'name',
+      idName = 'id',
+      renderChild = entry => entry[titleName],
+      selectedId,
+    } = this.props;
     const { query, data } = this.state;
     return (
       <div className={style.searchBox}>
@@ -46,9 +58,14 @@ export default class SearchBox extends Component {
             onChange={this.handleQueryChange.bind(this)} />
         </div>
         <ul className={style.list}>
-          { data.map(entry => (
-            <li key={entry[idName]} onClick={onSelect.bind(null, entry)}>
-              { entry[titleName] }
+          { data.map((entry, index) => (
+            <li key={entry[idName]}>
+              <button className={classNames(style.entry,
+                  entry[idName] === selectedId && style.selected)}
+                onClick={this.handleSelect.bind(this, index)}
+              >
+                { renderChild(entry) }
+              </button>
             </li>
           )) }
         </ul>
@@ -60,10 +77,10 @@ export default class SearchBox extends Component {
 SearchBox.propTypes = {
   onQuery: PropTypes.func,
   onSelect: PropTypes.func,
-  render: PropTypes.func,
+  renderList: PropTypes.func,
   data: PropTypes.array,
   titleName: PropTypes.string,
   idName: PropTypes.string,
-  selectedId: PropTypes.string,
+  selectedId: PropTypes.any,
 };
 
