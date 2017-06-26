@@ -1,4 +1,4 @@
-import React, { Component, Children, cloneElement } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import style from './searchBox.css';
@@ -6,7 +6,7 @@ import style from './searchBox.css';
 export default class SearchBox extends Component {
   constructor(props) {
     super(props);
-    this.state = { query: '', items: props.children || [] };
+    this.state = { query: '', data: props.data || [] };
     // Get current query...
     this.handleQuery('');
   }
@@ -23,11 +23,11 @@ export default class SearchBox extends Component {
     let result = this.props.onQuery(query);
     if (Array.isArray(result)) {
       // If an array is returned, just render them right away
-      this.setState({ items: result });
+      this.setState({ data: result });
     } else if (result != null && typeof result.then === 'function') {
       // Or... a Promise.
       // TODO Implement loading state
-      result.then(items => this.setState({ items }));
+      result.then(data => this.setState({ data }));
     }
     // Otherwise, do absolutely nothing - it would be delivered by setting
     // props.
@@ -37,8 +37,8 @@ export default class SearchBox extends Component {
     this.handleQuery(e.target.value);
   }
   render() {
-    const { onSelect } = this.props;
-    const { query, items } = this.state;
+    const { onSelect, titleName, idName } = this.props;
+    const { query, data } = this.state;
     return (
       <div className={style.searchBox}>
         <div className={style.query}>
@@ -46,10 +46,10 @@ export default class SearchBox extends Component {
             onChange={this.handleQueryChange.bind(this)} />
         </div>
         <ul className={style.list}>
-          { Children.map(items, (item) => (
-            // This simply links onSelect to top-level - which means that
-            // underlying element is responsible for handling onSelect.
-            cloneElement(item, { onSelect })
+          { data.map(entry => (
+            <li key={entry[idName]} onClick={onSelect.bind(null, entry)}>
+              { entry[titleName] }
+            </li>
           )) }
         </ul>
       </div>
@@ -60,7 +60,10 @@ export default class SearchBox extends Component {
 SearchBox.propTypes = {
   onQuery: PropTypes.func,
   onSelect: PropTypes.func,
-  // It shouldn't do any filtering by itself - onQuery should take care of it.
-  children: PropTypes.array,
+  render: PropTypes.func,
+  data: PropTypes.array,
+  titleName: PropTypes.string,
+  idName: PropTypes.string,
+  selectedId: PropTypes.string,
 };
 
