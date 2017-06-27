@@ -27,12 +27,14 @@ export default class Ledger extends Component {
   render() {
     const accountSchema = {
       '0abcd': {
+        id: '0abcd',
         name: '잡손실',
         type: 'expense',
         currency: 'KRW',
         // Current value is not known at the moment
       },
       '0cdef': {
+        id: '0cdef',
         name: '보통예금',
         type: 'asset',
         currency: 'KRW',
@@ -40,11 +42,8 @@ export default class Ledger extends Component {
     };
     const entrySchema = this.state.entry;
     const renderAccountList = (account) => (
-      <SearchBox selectedId={3}
-        data={Array.from({ length: 30 }).map((_, i) => ({
-          id: i,
-          name: 'test',
-        }))} />
+      <SearchBox selectedId={account.id}
+        data={Object.keys(accountSchema).map(v => accountSchema[v])} />
     );
     // Apply accountSchema to entrySchema - 'flatten' it.
     return (

@@ -7,7 +7,9 @@ import style from './searchBox.css';
 export default class SearchBox extends Component {
   constructor(props) {
     super(props);
-    this.state = { query: '', data: props.data || [] };
+    this.state = { query: '', data: props.data || [], filtered: [] };
+  }
+  componentWillMount() {
     // Get current query...
     this.handleQuery('');
   }
@@ -18,17 +20,20 @@ export default class SearchBox extends Component {
     }
   }
   handleQuery(query) {
-    // Do nothing if onQuery is not provided
-    if (this.props.onQuery == null) return;
+    // Do built-in query if onQuery is not provided
+    if (this.props.onQuery == null) {
+      this.handleFilter(query);
+      return;
+    }
     // Update items list according to the onQuery's result.
     let result = this.props.onQuery(query);
     if (Array.isArray(result)) {
       // If an array is returned, just render them right away
-      this.setState({ data: result });
+      this.handleFilter(query, result);
     } else if (result != null && typeof result.then === 'function') {
       // Or... a Promise.
       // TODO Implement loading state
-      result.then(data => this.setState({ data }));
+      result.then(data => this.handleFilter(query, data));
     }
     // Otherwise, do absolutely nothing - it would be delivered by setting
     // props.
@@ -36,6 +41,13 @@ export default class SearchBox extends Component {
   handleQueryChange(e) {
     this.setState({ query: e.target.value });
     this.handleQuery(e.target.value);
+  }
+  handleFilter(query, data) {
+    const { titleName = 'name' } = this.props;
+    if (data != null) this.setState({ data });
+    let filtered = (data || this.state.data).filter(v =>
+      v[titleName] && v[titleName].indexOf(query) !== -1);
+    this.setState({ filtered });
   }
   handleSelect(index) {
     const { onSelect } = this.props;
@@ -50,7 +62,7 @@ export default class SearchBox extends Component {
       renderChild = entry => entry[titleName],
       selectedId,
     } = this.props;
-    const { query, data } = this.state;
+    const { query, filtered: data } = this.state;
     return (
       <div className={style.searchBox}>
         <div className={style.query}>
