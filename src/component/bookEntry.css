@@ -71,19 +71,37 @@
 
 .accountDiff {
   margin-bottom: 0.3em;
-  & > .name {
-    font-weight: bold;
-    &.income {
-      color: var(--green-800);
+  & > .left {
+    float: left;
+    & > .name {
+      display: inline-block;
+      font-weight: bold;
+      &.income {
+        color: var(--green-800);
+      }
+      &.expense {
+        color: var(--red-800);
+      }
+      &.asset {
+        color: var(--blue-800);
+      }
+      &.liability {
+        color: var(--orange-800);
+      }
     }
-    &.expense {
+    & > .delete {
+      display: inline-block;
+      margin: 0 0 0 0.2em;
+      padding: 0 0.2em;
+      height: 1.6em;
+      border: none;
+      background: none;
+      font-size: 0.8em;
+      vertical-align: middle;
       color: var(--red-800);
-    }
-    &.asset {
-      color: var(--blue-800);
-    }
-    &.liability {
-      color: var(--orange-800);
+      &:hover {
+        color: var(--red-600);
+      }
     }
   }
   & > .note {
@@ -114,18 +132,6 @@
         color: var(--red-800);
       }
     }
-    & > .delete {
-      margin: 0 0 0 0.2em;
-      padding: 0 0.2em;
-      border: none;
-      background: none;
-      font-size: 0.8em;
-      vertical-align: middle;
-      color: var(--red-800);
-      &:hover {
-        color: var(--red-600);
-      }
-    }
   }
   &:after {
     content: '';
@@ -134,18 +140,19 @@
   }
   &.editing {
     width: 100%;
-    & > .name {
-      float: left;
-      line-height: 1.6em;
-      & > .dropDown {
-        display: block;
-        & > button {
-          padding: 0;
-          margin: 0;
-          color: inherit;
-          font-size: inherit;
-          font-weight: inherit;
-          line-height: inherit;
+    & > .left {
+      & > .name {
+        line-height: 1.6em;
+        & > .dropDown {
+          display: block;
+          & > button {
+            padding: 0;
+            margin: 0;
+            color: inherit;
+            font-size: inherit;
+            font-weight: inherit;
+            line-height: inherit;
+          }
         }
       }
     }

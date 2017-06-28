@@ -86,16 +86,23 @@ class AccountDiff extends Component {
         [style.editing]: editing,
         [style.editNote]: editNote,
       })}>
-        <span className={classNames(style.name, accountClassName)}>
-          { editing ? (
-            <DropDown title={account.name} left preventClose noArrow
-              className={style.dropDown} ref={e => this.dropDown = e}
-            >
-              { renderAccountList(account,
-                this.handleAccountChange.bind(this)) }
-            </DropDown>
-          ) : account.name }
-        </span>
+        <div className={style.left}>
+          <span className={classNames(style.name, accountClassName)}>
+            { editing ? (
+              <DropDown title={account.name} left preventClose noArrow
+                className={style.dropDown} ref={e => this.dropDown = e}
+              >
+                { renderAccountList(account,
+                  this.handleAccountChange.bind(this)) }
+              </DropDown>
+            ) : account.name }
+          </span>
+          { deletable && (
+            <button className={style.delete} onClick={onDelete} tabIndex={-1}>
+              <FaMinus />
+            </button>
+          ) }
+        </div>
         <div className={style.right}>
           <span className={classNames(style.value,
             value > 0 ? style.positive : (value < 0 && style.negative))}
@@ -107,11 +114,6 @@ class AccountDiff extends Component {
                 onChange={this.handleValueChange.bind(this)} />
             ) : formatter.format(value) }
           </span>
-          { deletable && (
-            <button className={style.delete} onClick={onDelete} tabIndex={-1}>
-              <FaMinus />
-            </button>
-          ) }
         </div>
         { note && !editing && (
           <span className={style.note}>
