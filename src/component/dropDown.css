@@ -103,4 +103,12 @@
       @mixin triangle-bottom 9px, 9px, var(--grey-100);
     }
   }
+  &.noArrow > .content {
+    &:before {
+      display: none;
+    }
+    &:after {
+      display: none;
+    }
+  }
 }

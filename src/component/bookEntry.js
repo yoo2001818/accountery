@@ -42,8 +42,15 @@ class AccountDiff extends Component {
     node.select();
     node.addEventListener('blur', () => this.setState({ editNote: false }));
   }
-  handleAccountChange(e) {
-
+  handleAccountChange(account) {
+    this.dropDown.close();
+    const { diff, onChange } = this.props;
+    if (onChange != null) {
+      onChange(Object.assign({}, diff, {
+        id: account.id,
+        account: account,
+      }));
+    }
   }
   handleValueChange(e) {
     const { diff, onChange, onDelete } = this.props;
@@ -81,10 +88,11 @@ class AccountDiff extends Component {
       })}>
         <span className={classNames(style.name, accountClassName)}>
           { editing ? (
-            <DropDown title={account.name} left preventClose
-              className={style.dropDown}
+            <DropDown title={account.name} left preventClose noArrow
+              className={style.dropDown} ref={e => this.dropDown = e}
             >
-              { renderAccountList(account) }
+              { renderAccountList(account,
+                this.handleAccountChange.bind(this)) }
             </DropDown>
           ) : account.name }
         </span>
@@ -174,8 +182,8 @@ export default class BookEntry extends Component {
     }
   }
   render() {
-    const { entry: { accounts, summary }, focus, editing, renderAccountList,
-      } = this.props;
+    const { entry: { accounts, summary }, focus, editing,
+      renderAccountList } = this.props;
     return (
       <div className={classNames(style.bookEntry, {
         [style.focus]: focus,

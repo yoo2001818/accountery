@@ -114,9 +114,15 @@ export default class DropDown extends Component {
     }
     e.preventDefault();
   }
+  open() {
+    if (!this.state.open) this.setState({ open: true });
+  }
+  close() {
+    if (this.state.open) this.setState({ open: false });
+  }
   render() {
     const { open, x, y } = this.state;
-    const { title, children, preventClose, top, left,
+    const { title, children, preventClose, top, left, noArrow,
       className, openClassName } = this.props;
     return (
       <div
@@ -132,6 +138,7 @@ export default class DropDown extends Component {
             <div className={classNames(style.dropDownPortal, {
               [style.top]: top,
               [style.left]: left,
+              [style.noArrow]: noArrow,
             })} style={{
               position: 'absolute',
               left: x + 'px',
@@ -160,6 +167,7 @@ DropDown.propTypes = {
   preventClose: PropTypes.bool,
   top: PropTypes.bool,
   left: PropTypes.bool,
+  noArrow: PropTypes.bool,
   className: PropTypes.string,
   openClassName: PropTypes.string,
 };

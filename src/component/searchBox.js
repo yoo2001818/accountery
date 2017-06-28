@@ -17,7 +17,11 @@ export default class SearchBox extends Component {
     // Immutable?
     if (this.props.children !== nextProps.children) {
       this.setState({ items: nextProps.children });
+      this.handleFilter(this.state.query, nextProps.children);
     }
+  }
+  componentDidMount() {
+    if (this.input != null) this.input.focus();
   }
   handleQuery(query) {
     // Do built-in query if onQuery is not provided
@@ -67,12 +71,14 @@ export default class SearchBox extends Component {
       <div className={style.searchBox}>
         <div className={style.query}>
           <input type='text' value={query}
+            ref={input => this.input = input}
             onChange={this.handleQueryChange.bind(this)} />
         </div>
         <ul className={style.list}>
           { data.map((entry, index) => (
             <li key={entry[idName]}>
-              <button className={classNames(style.entry,
+              <button
+                className={classNames(style.entry,
                   entry[idName] === selectedId && style.selected)}
                 onClick={this.handleSelect.bind(this, index)}
               >
