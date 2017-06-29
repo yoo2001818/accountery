@@ -24,6 +24,13 @@ const ACCOUNT_PLACEHOLDER = {
   currency: 'KRW',
 };
 
+const ACCOUNT_DIFF_PLACEHOLDER = {
+  account: ACCOUNT_PLACEHOLDER,
+  id: 'placeholder',
+  note: null,
+  value: null,
+};
+
 class AccountDiff extends Component {
   constructor(props) {
     super(props);
@@ -71,13 +78,14 @@ class AccountDiff extends Component {
     }
   }
   render() {
-    const { editing, deletable, diff, onDelete, renderAccountList } = this.props;
+    const { editing, deletable, onDelete, renderAccountList } = this.props;
+    const diff = this.props.diff || ACCOUNT_DIFF_PLACEHOLDER;
     let { account, note, value } = diff;
-    if (account == null) account = ACCOUNT_PLACEHOLDER;
     const { editNote } = this.state;
     // TODO Move this to somewhere else
     const formatter = new Intl.NumberFormat(undefined,
       { style: 'currency', currency: account.currency });
+    const formattedValue = isNaN(value) ? '' : formatter.format(value);
     // This is so unnecessary, but I wanted to make sure only selected types
     // are accepted as class name.
     const accountClassName = ACCOUNT_DIFF_STYLES[account.type];
@@ -112,7 +120,7 @@ class AccountDiff extends Component {
                 value={String(value)}
                 onFocus={e => e.target.select()}
                 onChange={this.handleValueChange.bind(this)} />
-            ) : formatter.format(value) }
+            ) : formattedValue }
           </span>
         </div>
         { note && !editing && (
@@ -200,7 +208,7 @@ export default class BookEntry extends Component {
               key={key} />
           )) }
           { editing && (
-            <AccountDiff diff={{ account: ACCOUNT_PLACEHOLDER }}
+            <AccountDiff diff={null}
               editing={editing}
               renderAccountList={renderAccountList}
               onChange={this.handleAccountDiffChange.bind(this, 'new')} />
