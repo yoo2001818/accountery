@@ -61,11 +61,17 @@
       color: var(--grey-600);
       & > .dropDown {
         visibility: hidden;
+        & > button {
+          height: 1.6em;
+        }
         &.open {
           visibility: visible;
         }
       }
     }
+  }
+  &.editing > .content > .menu {
+    padding-bottom: 0.4em;
   }
 }
 
@@ -196,7 +202,6 @@
         border: none;
         background: none;
         text-decoration: underline;
-        vertical-align: middle;
         color: var(--grey-700);
         &:hover {
           color: var(--grey-500);

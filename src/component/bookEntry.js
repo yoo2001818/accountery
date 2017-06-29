@@ -99,7 +99,7 @@ class AccountDiff extends Component {
           </span>
           { deletable && (
             <button className={style.delete} onClick={onDelete} tabIndex={-1}>
-              <FaMinus />
+              <FaMinus style={{ verticalAlign: null }} />
             </button>
           ) }
         </div>
