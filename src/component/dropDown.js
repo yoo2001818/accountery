@@ -5,6 +5,18 @@ import Portal from 'react-portal-minimal';
 
 import style from './dropDown.css';
 
+export const Entry = ({ children, onClick }) => (
+  <li>
+    <button>{ children }</button>
+  </li>
+);
+
+export const List = ({ children }) => (
+  <ul className={style.list}>
+    { children }
+  </ul>
+);
+
 export default class DropDown extends Component {
   constructor(props) {
     super(props);

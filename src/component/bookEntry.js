@@ -7,7 +7,8 @@ import FaMinus from 'react-icons/lib/fa/minus';
 import FaComment from 'react-icons/lib/fa/comment';
 
 import CachedTextInput from './cachedTextInput';
-import DropDown from './dropDown';
+import DropDown, { List as DropDownList, Entry as DropDownEntry }
+  from './dropDown';
 import style from './bookEntry.css';
 
 const ACCOUNT_DIFF_STYLES = {
@@ -227,7 +228,11 @@ export default class BookEntry extends Component {
             <DropDown title={<FaCaretDown />}
               className={style.dropDown} openClassName={style.open}
             >
-              <div>aa and that</div>
+              <DropDownList>
+                <DropDownEntry>Remove</DropDownEntry>
+                <DropDownEntry>Copy</DropDownEntry>
+                <DropDownEntry>Bookmark</DropDownEntry>
+              </DropDownList>
             </DropDown>
           </div>
         </div>

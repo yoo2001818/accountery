@@ -33,6 +33,7 @@
         text-align: left;
         &:hover, &:focus {
           background-color: var(--blue-200);
+          color: var(--blue-800);
         }
         &.selected {
           background-color: var(--blue-700);
