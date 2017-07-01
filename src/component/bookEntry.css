@@ -55,11 +55,13 @@
     & > .menu {
       display: table-cell;
       vertical-align: bottom;
-      width: 1.5em;
+      width: auto;
+      white-space: nowrap;
       text-align: center;
       margin-right: -0.2em;
       color: var(--grey-600);
       & > .dropDown {
+        display: inline-block;
         visibility: hidden;
         & > button {
           height: 1.6em;
@@ -68,10 +70,33 @@
           visibility: visible;
         }
       }
+      & > .undo, & > .save {
+        display: inline-block;
+        width: auto;
+        margin: 0 0.2em;
+        padding: 0;
+        border: none;
+        background: none;
+      }
+      & > .undo {
+        color: var(--orange-800);
+        &:hover, &:focus {
+          color: var(--orange-700);
+        }
+      }
+      & > .save {
+        color: var(--green-800);
+        &:hover, &:focus {
+          color: var(--green-700);
+        }
+      }
     }
   }
   &.editing > .content > .menu {
     padding-bottom: 0.4em;
+    & > .dropDown {
+      visibility: visible;
+    }
   }
 }
 

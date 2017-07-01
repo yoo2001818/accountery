@@ -5,6 +5,8 @@ import Textarea from 'react-textarea-autosize';
 import FaCaretDown from 'react-icons/lib/fa/caret-down';
 import FaMinus from 'react-icons/lib/fa/minus';
 import FaComment from 'react-icons/lib/fa/comment';
+import FaCheck from 'react-icons/lib/fa/check';
+import FaUndo from 'react-icons/lib/fa/rotate-left';
 
 import CachedTextInput from './cachedTextInput';
 import DropDown, { List as DropDownList, Entry as DropDownEntry }
@@ -225,6 +227,16 @@ export default class BookEntry extends Component {
             </p>
           )}
           <div className={style.menu}>
+            { editing && (
+              <button className={style.undo}>
+                <FaUndo />
+              </button>
+            ) }
+            { editing && (
+              <button className={style.save}>
+                <FaCheck />
+              </button>
+            ) }
             <DropDown title={<FaCaretDown />}
               className={style.dropDown} openClassName={style.open}
             >
