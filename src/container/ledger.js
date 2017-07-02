@@ -52,7 +52,7 @@ export default class Ledger extends Component {
         <BookDateEntry date={Date.now()}>
           <li>
             <BookEntry focus
-              entry={Object.assign({}, entrySchema, {
+              value={Object.assign({}, entrySchema, {
                 accounts: entrySchema.accounts.map(info => Object.assign({},
                   info, { account: accountSchema[info.id] })),
               })}
@@ -63,7 +63,7 @@ export default class Ledger extends Component {
           { [0, 1, 2, 3, 4].map(v => (
             <li key={v}>
               <BookEntry editing
-                entry={Object.assign({}, entrySchema, {
+                value={Object.assign({}, entrySchema, {
                   accounts: entrySchema.accounts.map(info => Object.assign({},
                     info, { account: accountSchema[info.id] })),
                 })}

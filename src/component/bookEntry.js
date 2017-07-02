@@ -164,38 +164,38 @@ AccountDiff.propTypes = {
 
 export default class BookEntry extends Component {
   handleAccountDiffDelete(key) {
-    const { entry, onChange } = this.props;
+    const { value, onChange } = this.props;
     if (onChange != null) {
-      onChange(Object.assign({}, entry, {
-        accounts: entry.accounts.filter((original, id) => id !== key),
+      onChange(Object.assign({}, value, {
+        accounts: value.accounts.filter((original, id) => id !== key),
       }));
     }
   }
-  handleAccountDiffChange(key, value) {
-    const { entry, onChange } = this.props;
+  handleAccountDiffChange(key, diff) {
+    const { value, onChange } = this.props;
     if (onChange != null) {
       if (key === 'new') {
-        onChange(Object.assign({}, entry, {
-          accounts: entry.accounts.concat(value),
+        onChange(Object.assign({}, value, {
+          accounts: value.accounts.concat(diff),
         }));
       } else {
-        onChange(Object.assign({}, entry, {
-          accounts: entry.accounts.map((original, id) =>
-            id === key ? value : original),
+        onChange(Object.assign({}, value, {
+          accounts: value.accounts.map((original, id) =>
+            id === key ? diff : original),
         }));
       }
     }
   }
   handleContentChange(e) {
-    const { entry, onChange } = this.props;
+    const { value, onChange } = this.props;
     if (onChange != null) {
-      onChange(Object.assign({}, entry, {
+      onChange(Object.assign({}, value, {
         summary: e.target.value,
       }));
     }
   }
   render() {
-    const { entry: { accounts, summary }, focus, editing,
+    const { value: { accounts, summary }, focus, editing, onSave, onUndo,
       renderAccountList } = this.props;
     return (
       <div className={classNames(style.bookEntry, {
@@ -227,13 +227,13 @@ export default class BookEntry extends Component {
             </p>
           )}
           <div className={style.menu}>
-            { editing && (
-              <button className={style.undo}>
+            { editing && onUndo && (
+              <button className={style.undo} onClick={onUndo}>
                 <FaUndo />
               </button>
             ) }
-            { editing && (
-              <button className={style.save}>
+            { editing && onSave && (
+              <button className={style.save} onClick={onSave}>
                 <FaCheck />
               </button>
             ) }
@@ -255,9 +255,11 @@ export default class BookEntry extends Component {
 
 BookEntry.propTypes = {
   // TODO Add detailed props
-  entry: PropTypes.object,
+  value: PropTypes.object,
   focus: PropTypes.bool,
   editing: PropTypes.bool,
   renderAccountList: PropTypes.func,
   onChange: PropTypes.func,
+  onUndo: PropTypes.func,
+  onSave: PropTypes.func,
 };
