@@ -41,8 +41,11 @@ export default class Ledger extends Component {
       editingIds: {},
     };
   }
-  handleEntryChange(value) {
-    this.setState({ entry: value });
+  handleEntryChange(id, value) {
+    const { entries } = this.state;
+    this.setState({
+      entries: entries.map((v, i) => i === id ? value : v),
+    });
   }
   handleEntryStatus(id, { edited }) {
     const { selectedId, editingIds } = this.state;
