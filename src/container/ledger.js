@@ -44,7 +44,7 @@ export default class Ledger extends Component {
   handleEntryChange(value) {
     this.setState({ entry: value });
   }
-  handleEntryStatus(id, edited) {
+  handleEntryStatus(id, { edited }) {
     const { selectedId, editingIds } = this.state;
     if (selectedId !== id && !edited) {
       // Remove itself from editingIds
@@ -93,7 +93,7 @@ export default class Ledger extends Component {
               >
                 <BookEntry
                   focus={i === selectedId}
-                  editing={editingIds[i]}
+                  editing={!!editingIds[i]}
                   onSelect={this.handleEntrySelect.bind(this, i)}
                   renderAccountList={renderAccountList}
                 />

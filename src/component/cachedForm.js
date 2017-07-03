@@ -48,8 +48,8 @@ export default class CachedForm extends Component {
       value,
       edited,
       onChange: this.handleChange.bind(this),
-      onReset: edited && this.reset.bind(this),
-      onSubmit: edited && this.submit.bind(this),
+      onReset: edited ? this.reset.bind(this) : null,
+      onSubmit: edited ? this.submit.bind(this) : null,
     });
   }
 }
