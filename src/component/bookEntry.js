@@ -194,14 +194,27 @@ export default class BookEntry extends Component {
       }));
     }
   }
+  handleSelect() {
+    const { onSelect } = this.props;
+    if (onSelect != null) onSelect();
+  }
   render() {
     const { value: { accounts, summary }, focus, editing, onSubmit, onReset,
       renderAccountList } = this.props;
     return (
-      <div className={classNames(style.bookEntry, {
-        [style.focus]: focus,
-        [style.editing]: editing,
-      })}>
+      <div
+        className={classNames(style.bookEntry, {
+          [style.focus]: focus,
+          [style.editing]: editing,
+        })}
+        tabIndex={editing ? null : 1337}
+        onFocus={this.handleSelect.bind(this)}
+      >
+        { editing && (
+          <div className={style.date}>
+            2000-00-00 (월)
+          </div>
+        ) }
         <ul className={style.accountDiffs}>
           { accounts.map((diff, key) => (
             <AccountDiff diff={diff} editing={editing} deletable={editing}
@@ -262,4 +275,5 @@ BookEntry.propTypes = {
   onChange: PropTypes.func,
   onReset: PropTypes.func,
   onSubmit: PropTypes.func,
+  onSelect: PropTypes.func,
 };

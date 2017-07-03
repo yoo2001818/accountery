@@ -24,6 +24,11 @@
       visibility: visible;
     }
   }
+  & > .date {
+    margin: 0 0 0.5em;
+    font-size: 0.9em;
+    color: var(--grey-600);
+  }
   & > .accountDiffs {
     margin: 0;
     padding: 0;
@@ -64,7 +69,6 @@
         display: inline-block;
         visibility: hidden;
         & > button {
-          height: 1.6em;
         }
         &.open {
           visibility: visible;

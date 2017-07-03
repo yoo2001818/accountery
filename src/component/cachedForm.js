@@ -18,20 +18,25 @@ export default class CachedForm extends Component {
   handleChange(value) {
     // TODO Should run deep equal test to check if the user has inserted
     // exactly same value as before. 
+    const { onStatus } = this.props;
+    if (onStatus != null) onStatus({ edited: true });
     this.setState({
       value,
       edited: true,
     });
   }
   reset() {
+    const { onStatus } = this.props;
+    if (onStatus != null) onStatus({ edited: false });
     this.setState({
       value: this.props.value,
       edited: false,
     });
   }
   submit() {
-    const { onChange } = this.props;
+    const { onChange, onStatus } = this.props;
     if (onChange != null) onChange(this.state.value);
+    if (onStatus != null) onStatus({ edited: false });
     this.setState({
       edited: false,
     });
@@ -52,5 +57,6 @@ export default class CachedForm extends Component {
 CachedForm.propTypes = {
   children: PropTypes.node.isRequired,
   onChange: PropTypes.func,
+  onStatus: PropTypes.func,
   value: PropTypes.any,
 };
