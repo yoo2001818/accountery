@@ -195,7 +195,7 @@ export default class BookEntry extends Component {
     }
   }
   render() {
-    const { value: { accounts, summary }, focus, editing, onSave, onUndo,
+    const { value: { accounts, summary }, focus, editing, onSubmit, onReset,
       renderAccountList } = this.props;
     return (
       <div className={classNames(style.bookEntry, {
@@ -227,13 +227,13 @@ export default class BookEntry extends Component {
             </p>
           )}
           <div className={style.menu}>
-            { editing && onUndo && (
-              <button className={style.undo} onClick={onUndo}>
+            { editing && onReset && (
+              <button className={style.undo} onClick={onReset}>
                 <FaUndo />
               </button>
             ) }
-            { editing && onSave && (
-              <button className={style.save} onClick={onSave}>
+            { editing && onSubmit && (
+              <button className={style.save} onClick={onSubmit}>
                 <FaCheck />
               </button>
             ) }
@@ -260,6 +260,6 @@ BookEntry.propTypes = {
   editing: PropTypes.bool,
   renderAccountList: PropTypes.func,
   onChange: PropTypes.func,
-  onUndo: PropTypes.func,
-  onSave: PropTypes.func,
+  onReset: PropTypes.func,
+  onSubmit: PropTypes.func,
 };

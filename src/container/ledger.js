@@ -4,6 +4,7 @@ import style from './ledger.css';
 
 import BookDateEntry from '../component/bookDateEntry';
 import BookEntry from '../component/bookEntry';
+import CachedForm from '../component/cachedForm';
 import SearchBox from '../component/searchBox';
 
 export default class Ledger extends Component {
@@ -62,14 +63,17 @@ export default class Ledger extends Component {
           </li>
           { [0, 1, 2, 3, 4].map(v => (
             <li key={v}>
-              <BookEntry editing
+              <CachedForm
+                onChange={this.handleEntryChange.bind(this)}
                 value={Object.assign({}, entrySchema, {
                   accounts: entrySchema.accounts.map(info => Object.assign({},
                     info, { account: accountSchema[info.id] })),
                 })}
-                onChange={this.handleEntryChange.bind(this)}
-                renderAccountList={renderAccountList}
-              />
+              >
+                <BookEntry editing
+                  renderAccountList={renderAccountList}
+                />
+              </CachedForm>
             </li>
           )) }
         </BookDateEntry>

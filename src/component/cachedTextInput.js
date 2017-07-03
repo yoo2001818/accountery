@@ -60,7 +60,7 @@ export default class CachedTextInput extends Component {
         onBlur={this.handleBlur.bind(this)}
         onKeyDown={this.handleKeyDown.bind(this)}
         ref={input => this.input = input}
-        />
+      />
     );
   }
 }
