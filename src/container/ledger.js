@@ -36,9 +36,7 @@ export default class Ledger extends Component {
         },
       },
       selectedId: -1,
-      selectedActive: false,
-      // Maybe we need to use immutable.js?
-      editingIds: {},
+      formStates: {},
     };
   }
   handleEntryChange(id, value) {
@@ -47,35 +45,29 @@ export default class Ledger extends Component {
       entries: entries.map((v, i) => i === id ? value : v),
     });
   }
-  handleEntryStatus(id, { edited }) {
-    const { selectedId, editingIds } = this.state;
-    if (selectedId !== id && !edited) {
-      // Remove itself from editingIds
-      // TODO Actually remove it
-      this.setState({
-        editingIds: Object.assign({}, editingIds, {
-          [id]: null,
-        }),
-      });
-    }
-    if (selectedId === id) {
-      this.setState({ selectedActive: edited });
-    }
+  handleEntryState(id, state) {
+    const { formStates } = this.state;
+    this.setState({
+      formStates: Object.assign({}, formStates, {
+        [id]: Object.assign({}, formStates[id], state),
+      }),
+    });
   }
   handleEntrySelect(id) {
-    const { selectedId, selectedActive, editingIds } = this.state;
+    const { selectedId, formStates } = this.state;
     if (id === selectedId) return;
     this.setState({
       selectedId: id,
-      selectedActive: false,
-      editingIds: Object.assign({}, editingIds, {
-        [id]: true,
-        [selectedId]: selectedActive,
+      formStates: Object.assign({}, formStates, {
+        [id]: Object.assign({}, formStates[id],
+          { editing: true }),
+        [selectedId]: Object.assign({}, formStates[selectedId],
+          { editing: (formStates[selectedId] || {}).edited }),
       }),
     });
   }
   render() {
-    const { accounts, entries, selectedId, editingIds } = this.state;
+    const { accounts, entries, selectedId, formStates } = this.state;
     const renderAccountList = (account, onSelect) => (
       <SearchBox selectedId={account.id}
         onSelect={onSelect}
@@ -87,16 +79,17 @@ export default class Ledger extends Component {
           { entries.map((v, i) => (
             <li key={i}>
               <CachedForm
+                onState={this.handleEntryState.bind(this, i)}
                 onChange={this.handleEntryChange.bind(this, i)}
-                onStatus={this.handleEntryStatus.bind(this, i)}
                 value={Object.assign({}, v, {
                   accounts: v.accounts.map(info => Object.assign({},
                     info, { account: accounts[info.id] })),
                 })}
+                state={formStates[i]}
               >
                 <BookEntry
                   focus={i === selectedId}
-                  editing={!!editingIds[i]}
+                  editing={(formStates[i] || {}).editing}
                   onSelect={this.handleEntrySelect.bind(this, i)}
                   renderAccountList={renderAccountList}
                 />

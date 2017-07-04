@@ -4,46 +4,45 @@ import PropTypes from 'prop-types';
 export default class CachedForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      value: props.value,
-      edited: false,
-    };
+    this.useState = props.onState == null;
+    if (this.useState) {
+      this.state = {
+        value: undefined,
+        edited: false,
+      };
+    }
+  }
+  reportChange(value) {
+    let state = { value, edited: value !== undefined };
+    if (this.useState) {
+      this.setState(state);
+    } else {
+      this.props.onState(state);
+    }
   }
   componentWillReceiveProps(nextProps) {
-    if (this.state.edited) return;
-    this.setState({
-      value: nextProps.value,
-    });
+    // TODO Detect if onState has changed, although it's not really necessary..
   }
   handleChange(value) {
     // TODO Should run deep equal test to check if the user has inserted
     // exactly same value as before. 
-    const { onStatus } = this.props;
-    if (onStatus != null) onStatus({ edited: true });
-    this.setState({
-      value,
-      edited: true,
-    });
+    this.reportChange(value);
   }
   reset() {
-    const { onStatus } = this.props;
-    if (onStatus != null) onStatus({ edited: false });
-    this.setState({
-      value: this.props.value,
-      edited: false,
-    });
+    this.reportChange(undefined);
   }
   submit() {
-    const { onChange, onStatus } = this.props;
+    const { onChange } = this.props;
     if (onChange != null) onChange(this.state.value);
-    if (onStatus != null) onStatus({ edited: false });
-    this.setState({
-      edited: false,
-    });
+    // Callback order would matter?
+    this.reportChange(undefined);
   }
   render() {
+    // This is a mess.
     const { children } = this.props;
-    const { value, edited } = this.state;
+    const state = this.useState ? this.state : (this.props.state || {});
+    const value = state.value === undefined ? this.props.value : state.value;
+    const edited = state.edited || false;
     return cloneElement(children, {
       value,
       edited,
@@ -57,6 +56,7 @@ export default class CachedForm extends Component {
 CachedForm.propTypes = {
   children: PropTypes.node.isRequired,
   onChange: PropTypes.func,
-  onStatus: PropTypes.func,
+  onState: PropTypes.func,
   value: PropTypes.any,
+  state: PropTypes.any,
 };
