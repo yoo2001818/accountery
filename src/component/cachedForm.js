@@ -33,7 +33,8 @@ export default class CachedForm extends Component {
   }
   submit() {
     const { onChange } = this.props;
-    if (onChange != null) onChange(this.state.value);
+    const state = this.useState ? this.state : (this.props.state || {});
+    if (onChange != null) onChange(state.value);
     // Callback order would matter?
     this.reportChange(undefined);
   }

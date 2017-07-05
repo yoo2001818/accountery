@@ -54,7 +54,8 @@ class AccountDiff extends Component {
   }
   handleAccountChange(account) {
     this.dropDown.close();
-    const { diff, onChange } = this.props;
+    const { onChange } = this.props;
+    const diff = this.props.diff || ACCOUNT_DIFF_PLACEHOLDER;
     if (onChange != null) {
       onChange(Object.assign({}, diff, {
         id: account.id,
@@ -63,7 +64,8 @@ class AccountDiff extends Component {
     }
   }
   handleValueChange(e) {
-    const { diff, onChange, onDelete } = this.props;
+    const { onChange, onDelete } = this.props;
+    const diff = this.props.diff || ACCOUNT_DIFF_PLACEHOLDER;
     if (e.target.value === '' && onDelete != null) onDelete();
     let value = parseFloat(e.target.value);
     if (onChange != null && !isNaN(value)) {
@@ -73,7 +75,8 @@ class AccountDiff extends Component {
     }
   }
   handleNoteChange(e) {
-    const { diff, onChange } = this.props;
+    const { onChange } = this.props;
+    const diff = this.props.diff || ACCOUNT_DIFF_PLACEHOLDER;
     if (onChange != null) {
       onChange(Object.assign({}, diff, {
         note: e.target.value,

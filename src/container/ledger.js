@@ -56,14 +56,14 @@ export default class Ledger extends Component {
   handleEntrySelect(id) {
     const { selectedId, formStates } = this.state;
     if (id === selectedId) return;
+    let newFormStates = Object.assign({}, formStates);
+    newFormStates[id] = Object.assign({}, formStates[id], { editing: true });
+    if (!(formStates[selectedId] || {}).edited) {
+      delete newFormStates[selectedId];
+    }
     this.setState({
       selectedId: id,
-      formStates: Object.assign({}, formStates, {
-        [id]: Object.assign({}, formStates[id],
-          { editing: true }),
-        [selectedId]: Object.assign({}, formStates[selectedId],
-          { editing: (formStates[selectedId] || {}).edited }),
-      }),
+      formStates: newFormStates,
     });
   }
   render() {
