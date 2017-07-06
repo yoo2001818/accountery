@@ -1,5 +1,6 @@
 import { Component, cloneElement } from 'react';
 import PropTypes from 'prop-types';
+import deepEqual from 'deep-equal';
 
 export default class CachedForm extends Component {
   constructor(props) {
@@ -23,10 +24,10 @@ export default class CachedForm extends Component {
   componentWillReceiveProps(nextProps) {
     // TODO Detect if onState has changed, although it's not really necessary..
   }
-  handleChange(value) {
-    // TODO Should run deep equal test to check if the user has inserted
-    // exactly same value as before. 
-    this.reportChange(value);
+  handleChange(changed) {
+    const { value } = this.props;
+    this.reportChange(deepEqual(value, changed, { strict: true })
+      ? undefined : changed);
   }
   reset() {
     this.reportChange(undefined);
