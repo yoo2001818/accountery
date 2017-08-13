@@ -200,6 +200,10 @@ export default class BookEntry extends Component {
   render() {
     const { value: { accounts, summary }, focus, editing, onSubmit, onReset,
       onSelect, onUnselect, renderAccountList } = this.props;
+    // Check if there is any unfulfilled entries.
+    const allFulfilled = accounts.every(diff => 
+      diff.id !== 'placeholder' && diff.value !== '' && diff.value !== null
+    );
     return (
       <div
         className={classNames(style.bookEntry, {
@@ -223,7 +227,7 @@ export default class BookEntry extends Component {
               renderAccountList={renderAccountList}
               key={key} />
           )) }
-          { editing && (
+          { editing && allFulfilled && (
             <AccountDiff diff={null}
               editing={editing}
               renderAccountList={renderAccountList}
